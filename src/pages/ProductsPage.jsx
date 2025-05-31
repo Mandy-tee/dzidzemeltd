@@ -114,10 +114,10 @@ const ProductsPage = () => {
   
   const priceRanges = [
     { value: '', label: 'Any Price' },
-    { value: '0-10', label: 'Under $10' },
-    { value: '10-25', label: 'From $10 to $25' },
-    { value: '25-50', label: 'From $25 to $50' },
-    { value: '50-', label: 'Over $50' },
+    { value: '0-10', label: 'Under ₵10' },
+    { value: '10-25', label: 'From ₵10 to ₵25' },
+    { value: '25-50', label: 'From ₵25 to ₵50' },
+    { value: '50-', label: 'Over ₵50' },
   ];
   
   const sortOptions = [
