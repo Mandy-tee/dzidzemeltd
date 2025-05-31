@@ -81,9 +81,9 @@ const ProductCard = ({ product }) => {
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             {product.oldPrice && (
-              <span className="text-slate-400 line-through mr-2">${product.oldPrice.toFixed(2)}</span>
+              <span className="text-slate-400 line-through mr-2">₵{product.oldPrice.toFixed(2)}</span>
             )}
-            <span className="font-semibold">${product.price.toFixed(2)}</span>
+            <span className="font-semibold">₵{product.price.toFixed(2)}</span>
           </div>
           
           <button 

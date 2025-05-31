@@ -16,9 +16,9 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import BlogPage from './pages/BlogPage';
 import BlogPostPage from './pages/BlogPostPage';
-// import ContactPage from './pages/ContactPage';
+import ContactPage from './pages/ContactPage';
 import AboutPage from './pages/AboutPage';
-// import NotFoundPage from './pages/NotFoundPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
   const location = useLocation();
@@ -41,9 +41,9 @@ function App() {
           <Route path="register" element={<RegisterPage />} />
           <Route path="blog" element={<BlogPage />} />
           <Route path="blog/:id" element={<BlogPostPage />} />
-          {/* <Route path="contact" element={<ContactPage />} /> */}
+          <Route path="contact" element={<ContactPage />} />
           <Route path="about" element={<AboutPage />} />
-          {/* <Route path="*" element={<NotFoundPage />} /> */}
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
     </AnimatePresence>

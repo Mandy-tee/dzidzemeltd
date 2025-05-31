@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import logoImage from '../../images/logo.png';
 import juiceImage from '../../images/juice.png';
-import brownriceImage from '../../images/brownrice.png';
 import cereamixImage from '../../images/cereamix.png';
 import coconutoilImage from '../../images/coconutoil.png';
 import garimixImage from '../../images/garimix.png';
@@ -14,7 +13,7 @@ import winesImage from '../../images/wines.png';
 import plainriceImage from '../../images/plainrice.png';
 
 
-const images = [juiceImage, brownriceImage, cereamixImage, coconutoilImage, garimixImage, jasminericeImage, palmoil2Image, soboloImage, winesImage, plainriceImage];
+const images = [juiceImage, cereamixImage, coconutoilImage, garimixImage, jasminericeImage, palmoil2Image, soboloImage, winesImage, plainriceImage];
 
 const Hero = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);

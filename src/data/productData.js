@@ -1,17 +1,30 @@
 import juiceImage from '../images/juice.png';
+import coconutoilImage from '../images/coconutoil.png';
+import palmoil2Image from '../images/palmoil2.png';
+import jasminericeImage from '../images/jasminerice.png';
+import cereamixImage from '../images/cereamix.png';
+import brownriceImage from '../images/brownrice.png';
+import cocoafruitjuiceImage from '../images/cocoafruitjuice.png';
+import fishImage from '../images/fish.png';
+import gariImage from '../images/gari.png';
+import garimixImage from '../images/garimix.png';
+import palmoilImage from '../images/palmoil.png';
+import plainriceImage from '../images/plainrice.png';
+import soboloImage from '../images/sobolo.png';
+import winesImage from '../images/wines.png';
 
 export const allProducts = [
   {
     id: '1',
     name: 'Ekumfi Pineapple Juice',
-    price: 12.99,
-    oldPrice: 15.99,
+    price: 5.00,
+    oldPrice: 5.50,
     discount: 20,
     rating: 5,
     image: juiceImage,
     category: 'juices',
-    description: 'Fresh, naturally sweet pineapple juice made from 100% real Ghanaian pineapples with no added sugars or preservatives.',
-    variant: '1 Liter',
+    description: 'Fresh, naturally fruit juice made from 100% real Ghanaian fruits with no added sugars or preservatives.',
+    variant: '300ml',
     stock: 25,
     createdAt: '2025-02-15T10:00:00Z',
     isFeatured: true,
@@ -27,10 +40,10 @@ export const allProducts = [
   },
   {
     id: '2',
-    name: 'Premium Coconut Oil',
+    name: 'DHOME Organic Virgin Coconut Oil',
     price: 24.99,
     rating: 4,
-    image: 'https://images.pexels.com/photos/725998/pexels-photo-725998.jpeg',
+    image: coconutoilImage,
     category: 'oils',
     description: 'Cold-pressed, unrefined coconut oil sourced from organic coconuts in Ghana. Perfect for cooking, baking, or as a natural beauty product.',
     variant: '500ml',
@@ -49,12 +62,12 @@ export const allProducts = [
   },
   {
     id: '3',
-    name: 'Homemade Palm Oil',
+    name: 'Ahuntor Homemade Palm Oil',
     price: 18.99,
     oldPrice: 21.99,
     discount: 15,
     rating: 5,
-    image: 'https://images.pexels.com/photos/262896/pexels-photo-262896.jpeg',
+    image: palmoilImage,
     category: 'oils',
     description: 'Traditional Ghanaian palm oil made from the finest palm fruits. Rich in antioxidants and perfect for authentic West African dishes.',
     variant: '750ml',
@@ -73,10 +86,10 @@ export const allProducts = [
   },
   {
     id: '4',
-    name: 'Premium Ghana Jasmine Rice',
+    name: 'Ahuntor Ghana Jasmine Rice',
     price: 29.99,
     rating: 5,
-    image: 'https://images.pexels.com/photos/1310779/pexels-photo-1310779.jpeg',
+    image: jasminericeImage,
     category: 'grains',
     description: 'Aromatic jasmine rice grown in the fertile soils of Ghana. Known for its unique fragrance and perfect texture when cooked.',
     variant: '5kg',
@@ -95,10 +108,10 @@ export const allProducts = [
   },
   {
     id: '5',
-    name: 'Organic Brown Rice',
+    name: 'My Choice Organic Brown Rice',
     price: 22.99,
     rating: 4,
-    image: 'https://images.pexels.com/photos/7438982/pexels-photo-7438982.jpeg',
+    image: brownriceImage,
     category: 'grains',
     description: 'Nutritious brown rice grown organically in Ghana. High in fiber and essential nutrients with a nutty flavor and chewy texture.',
     variant: '3kg',
@@ -120,7 +133,7 @@ export const allProducts = [
     name: 'Cocoa Fruit Juice',
     price: 14.99,
     rating: 4,
-    image: 'https://images.pexels.com/photos/357743/pexels-photo-357743.jpeg',
+    image: cocoafruitjuiceImage,
     category: 'juices',
     description: 'Refreshing juice made from fresh cocoa fruit pulp, offering a unique tropical flavor with hints of lychee, citrus, and mango.',
     variant: '750ml',
@@ -139,12 +152,12 @@ export const allProducts = [
   },
   {
     id: '7',
-    name: 'Kokonte Flour',
+    name: 'Garimix',
     price: 16.99,
     rating: 4,
-    image: 'https://images.pexels.com/photos/4198022/pexels-photo-4198022.jpeg',
-    category: 'grains',
-    description: 'Traditional cassava flour commonly used in Ghanaian cuisine. Perfect for making kokonte, a popular West African dish.',
+    image: gariImage,
+    category: 'cassava',
+    description: 'Traditional cassava flakes commonly used in Ghanaian cuisine. Perfect for making gari soakings, a popular West African dish.',
     variant: '2kg',
     stock: 22,
     createdAt: '2025-02-18T08:40:00Z',
@@ -156,7 +169,7 @@ export const allProducts = [
       width: '15 cm',
       depth: '8 cm'
     },
-    tags: ['flour', 'cassava', 'traditional', 'gluten-free'],
+    tags: ['cassava', 'traditional', 'gluten-free'],
     reviews: 26
   },
   {
@@ -166,7 +179,7 @@ export const allProducts = [
     oldPrice: 20.99,
     discount: 10,
     rating: 5,
-    image: 'https://images.pexels.com/photos/4226896/pexels-photo-4226896.jpeg',
+    image: cereamixImage,
     category: 'cereals',
     description: 'Nutritious cereal mix made from roasted corn, millet, and soya beans. Rich in protein and perfect for breakfast or as a snack.',
     variant: '1.5kg',
@@ -188,7 +201,7 @@ export const allProducts = [
     name: 'Coffee Wine',
     price: 34.99,
     rating: 4,
-    image: 'https://images.pexels.com/photos/2912108/pexels-photo-2912108.jpeg',
+    image: winesImage,
     category: 'wines',
     description: 'Unique artisanal wine made from fermented coffee beans. Features rich coffee flavors with subtle fruity notes and a smooth finish.',
     variant: '750ml',
@@ -207,10 +220,10 @@ export const allProducts = [
   },
   {
     id: '10',
-    name: 'Red Palm Wine',
+    name: 'Cocoa Wine',
     price: 28.99,
     rating: 5,
-    image: 'https://images.pexels.com/photos/4255482/pexels-photo-4255482.jpeg',
+    image: winesImage,
     category: 'wines',
     description: 'Traditional palm wine with a distinctive red hue. Naturally fermented with a sweet, tangy flavor and mild alcoholic content.',
     variant: '750ml',
@@ -224,7 +237,7 @@ export const allProducts = [
       width: '8 cm',
       depth: '8 cm'
     },
-    tags: ['palm wine', 'traditional', 'fermented', 'alcoholic'],
+    tags: ['cocoa', 'traditional', 'fermented', 'alcoholic'],
     reviews: 22
   },
   {
@@ -232,7 +245,7 @@ export const allProducts = [
     name: 'Sobolo (Hibiscus) Drink',
     price: 9.99,
     rating: 5,
-    image: 'https://images.pexels.com/photos/6086318/pexels-photo-6086318.jpeg',
+    image: soboloImage,
     category: 'juices',
     description: 'Refreshing drink made from dried hibiscus flowers with a sweet-tart flavor. Rich in antioxidants and naturally caffeine-free.',
     variant: '1 Liter',
@@ -251,10 +264,10 @@ export const allProducts = [
   },
   {
     id: '12',
-    name: 'Ginger Flavored Gari',
+    name: 'Garimix Variety',
     price: 13.99,
     rating: 4,
-    image: 'https://images.pexels.com/photos/1327832/pexels-photo-1327832.jpeg',
+    image: garimixImage,
     category: 'grains',
     description: 'Traditional cassava flakes infused with natural ginger flavor. Ready to eat or can be soaked in water for a quick meal or snack.',
     variant: '1kg',
@@ -276,7 +289,7 @@ export const allProducts = [
     name: 'Dried Salted Tilapia',
     price: 19.99,
     rating: 4,
-    image: 'https://images.pexels.com/photos/566345/pexels-photo-566345.jpeg',
+    image: fishImage,
     category: 'fish',
     description: 'Premium dried and salted tilapia fish, a staple in many Ghanaian dishes. Adds rich flavor to soups, stews, and sauces.',
     variant: '500g',
@@ -295,36 +308,36 @@ export const allProducts = [
   },
   {
     id: '14',
-    name: 'Organic Wheat Cereal',
+    name: 'Nass Plain Rice',
     price: 15.99,
     rating: 4,
-    image: 'https://images.pexels.com/photos/4397836/pexels-photo-4397836.jpeg',
-    category: 'cereals',
-    description: 'Whole grain wheat cereal grown organically in Ghana. Nutritious breakfast option high in fiber and essential nutrients.',
-    variant: '1.2kg',
+    image: plainriceImage,
+    category: 'grains',
+    description: 'Whole grain white rice grown organically in Ghana.',
+    variant: '5kg',
     stock: 20,
     createdAt: '2025-02-05T13:40:00Z',
     isFeatured: false,
     sku: 'OWC-014',
-    weight: '1.3 kg',
+    weight: '5 kg',
     dimensions: {
       height: '25 cm',
       width: '15 cm',
       depth: '8 cm'
     },
-    tags: ['wheat', 'cereal', 'organic', 'breakfast'],
+    tags: ['rice', 'grains', 'organic'],
     reviews: 24
   },
   {
     id: '15',
-    name: 'Maize Cereal',
+    name: 'Ahuntor Homemade Palm oil - sachet',
     price: 14.99,
     oldPrice: 16.99,
     discount: 12,
     rating: 4,
-    image: 'https://images.pexels.com/photos/4051554/pexels-photo-4051554.jpeg',
-    category: 'cereals',
-    description: 'Traditional maize cereal made from 100% natural corn. Versatile ingredient for breakfast porridge or various Ghanaian dishes.',
+    image: palmoil2Image,
+    category: 'oils',
+    description: 'Traditional Ghanaian palm oil made from the finest palm fruits. Rich in antioxidants and perfect for authentic West African dishes.',
     variant: '1.5kg',
     stock: 22,
     createdAt: '2025-01-15T10:15:00Z',
@@ -336,15 +349,15 @@ export const allProducts = [
       width: '15 cm',
       depth: '8 cm'
     },
-    tags: ['maize', 'corn', 'cereal', 'natural'],
+    tags: ['palm oil', 'oils', 'natural'],
     reviews: 27
   },
   {
     id: '16',
-    name: 'Cadeau Palm Wine',
+    name: 'Cashew Wine',
     price: 31.99,
     rating: 5,
-    image: 'https://images.pexels.com/photos/1028637/pexels-photo-1028637.jpeg',
+    image: winesImage,
     category: 'wines',
     description: 'Premium palm wine with a sweet, delicate flavor profile. Carefully fermented using traditional methods for a refined taste experience.',
     variant: '750ml',
@@ -358,7 +371,7 @@ export const allProducts = [
       width: '8 cm',
       depth: '8 cm'
     },
-    tags: ['palm wine', 'premium', 'cadeau', 'gift'],
+    tags: ['cashew', 'premium'],
     reviews: 19
   }
 ];

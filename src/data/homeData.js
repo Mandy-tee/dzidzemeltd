@@ -17,8 +17,8 @@ export const featuredProducts = [
   {
     id: '1',
     name: 'Ekumfi Juice',
-    price: 12.99,
-    oldPrice: 15.99,
+    price: 5.00,
+    oldPrice: 5.50,
     discount: 20,
     rating: 5,
     image: juiceImage,
@@ -71,7 +71,7 @@ export const productCategories = [
     id: 2,
     name: 'Oils',
     slug: 'oils',
-    image: palmoilImage,
+    image: palmoil2Image,
   },
   {
     id: 3,
@@ -87,9 +87,9 @@ export const productCategories = [
   },
   {
     id: 5,
-    name: 'Cocoa Fruit Juice',
-    slug: 'juice',
-    image: cocoafruitjuiceImage,
+    name: 'Plain Rice',
+    slug: 'rice',
+    image: plainriceImage,
   },
   {
     id: 6,
