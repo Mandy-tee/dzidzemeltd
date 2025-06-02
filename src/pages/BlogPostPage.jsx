@@ -174,7 +174,7 @@ const BlogPostPage = () => {
               <Link
                 key={index}
                 to={`/blog/tag/${tag.toLowerCase()}`}
-                className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 px-3 py-1 rounded-full text-sm hover:bg-primary-100 dark:hover:bg-primary-900 hover:text-primary-600 dark:hover:text-primary-300 transition-colors"
+                className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 px-3 py-1 rounded-full text-sm hover:bg-primary-100 dark:hover:bg-primary-900 hover:text-secondary-500 dark:hover:text-primary-300 transition-colors"
               >
                 {tag}
               </Link>

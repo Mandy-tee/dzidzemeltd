@@ -44,25 +44,25 @@ const NotFoundPage = () => {
               <div className="flex flex-wrap justify-center gap-4">
                 <Link 
                   to="/products" 
-                  className="text-primary-500 hover:text-primary-600 font-medium"
+                  className="text-primary-500 hover:text-secondary-500 font-medium"
                 >
                   Browse Products
                 </Link>
                 <Link 
                   to="/blog" 
-                  className="text-primary-500 hover:text-primary-600 font-medium"
+                  className="text-primary-500 hover:text-secondary-500 font-medium"
                 >
                   Read Our Blog
                 </Link>
                 <Link 
                   to="/contact" 
-                  className="text-primary-500 hover:text-primary-600 font-medium"
+                  className="text-primary-500 hover:text-secondary-500 font-medium"
                 >
                   Contact Us
                 </Link>
                 <Link 
                   to="/about" 
-                  className="text-primary-500 hover:text-primary-600 font-medium"
+                  className="text-primary-500 hover:text-secondary-500 font-medium"
                 >
                   About Us
                 </Link>

@@ -88,7 +88,7 @@ const ProductCard = ({ product }) => {
           
           <button 
             onClick={handleAddToCart}
-            className="text-primary-500 hover:text-primary-600 p-1"
+            className="text-primary-500 hover:text-secondary-500 p-1"
             aria-label="Add to cart"
           >
             <ShoppingBagIcon className="w-5 h-5" />

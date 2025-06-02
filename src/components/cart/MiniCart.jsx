@@ -39,7 +39,7 @@ const MiniCart = () => {
             </p>
             <Link
               to="/products"
-              className="btn btn-primary"
+              className="btn btn-primary hover:bg-secondary-500"
               onClick={toggleCart}
             >
               Browse Products

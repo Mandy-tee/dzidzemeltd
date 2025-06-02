@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import mtnlogoImage from '../../images/mtnlogo.png';
 import Logo from '../common/Logo';
 import { 
   FaFacebookF, 
@@ -140,7 +141,7 @@ const Footer = () => {
               className="h-6 object-contain"
             />
             <img 
-              src="https://mtn.com.gh/wp-content/uploads/2022/01/MOMO-LOGO.png" 
+              src={mtnlogoImage} 
               alt="MTN Mobile Money" 
               className="h-6 object-contain"
             />

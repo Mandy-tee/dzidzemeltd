@@ -5,10 +5,10 @@ const AccountPage = () => {
   const { user } = useAuth();
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 mt-20">
       <h1 className="text-3xl font-bold mb-8">My Account</h1>
       
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+      <div className="bg-gray-100 dark:bg-gray-800 rounded-lg shadow p-6">
         <div className="mb-6">
           <h2 className="text-xl font-semibold mb-4">Profile Information</h2>
           <div className="space-y-4">
