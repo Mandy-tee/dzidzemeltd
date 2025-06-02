@@ -21,13 +21,13 @@ const CartPage = () => {
 
   if (cart.length === 0) {
     return (
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 mt-10">
         <h1 className="text-3xl font-bold mb-8">Shopping Cart</h1>
         <div className="text-center py-12">
           <p className="text-xl text-gray-600 dark:text-gray-400 mb-6">Your cart is empty</p>
           <Link
             to="/products"
-            className="bg-primary-600 text-white px-6 py-3 rounded-md hover:bg-primary-700 transition-colors"
+            className="bg-secondary-500 text-white px-6 py-3 rounded-md hover:bg-primary-500 transition-colors"
           >
             Continue Shopping
           </Link>
