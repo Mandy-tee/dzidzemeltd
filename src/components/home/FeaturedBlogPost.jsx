@@ -46,7 +46,7 @@ const FeaturedBlogPost = ({ post }) => {
         
         <Link 
           to={`/blog/${post.slug}`}
-          className="font-medium text-primary-500 hover:text-primary-600 transition-colors duration-200"
+          className="font-medium text-primary-500 hover:text-secondary-500 transition-colors duration-200"
         >
           Read More →
         </Link>
