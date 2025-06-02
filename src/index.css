@@ -106,11 +106,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-primary-300 dark:bg-primary-600 rounded-full;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-primary-400 dark:bg-primary-500;
+  @apply bg-primary-500 dark:bg-secondary-500 rounded-full;
 }
 
 /* Animations */

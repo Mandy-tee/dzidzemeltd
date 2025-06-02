@@ -8,13 +8,13 @@ const blogPosts = [
     title: "The Art of Making Perfect Jollof Rice",
     slug: "perfect-jollof-rice-guide",
     excerpt: "Master the techniques and secrets behind creating the most delicious Ghanaian jollof rice. Learn about the best ingredients and traditional cooking methods.",
-    image: "https://images.pexels.com/photos/11899547/pexels-photo-11899547.jpeg",
+    image: "https://images.pexels.com/photos/13915043/pexels-photo-13915043.jpeg",
     category: "Recipes",
     date: "March 15, 2025",
     readTime: "8 min",
     author: {
       name: "Abena Osei",
-      avatar: "https://randomuser.me/api/portraits/women/23.jpg"
+      avatar: "https://randomuser.me/api/portraits/women/16.jpg"
     }
   },
   {
@@ -22,13 +22,13 @@ const blogPosts = [
     title: "Health Benefits of Coconut Oil in African Cuisine",
     slug: "coconut-oil-health-benefits",
     excerpt: "Discover the numerous health benefits of using coconut oil in your cooking and how it's traditionally used in Ghanaian dishes.",
-    image: "https://images.pexels.com/photos/725998/pexels-photo-725998.jpeg",
+    image: "https://images.pexels.com/photos/11921158/pexels-photo-11921158.jpeg",
     category: "Health & Wellness",
     date: "March 12, 2025",
     readTime: "6 min",
     author: {
       name: "Dr. Kwame Addo",
-      avatar: "https://randomuser.me/api/portraits/men/45.jpg"
+      avatar: "https://randomuser.me/api/portraits/men/53.jpg"
     }
   },
   {
@@ -36,13 +36,13 @@ const blogPosts = [
     title: "Traditional Ghanaian Breakfast Ideas",
     slug: "ghanaian-breakfast-ideas",
     excerpt: "Start your day the Ghanaian way with these nutritious and delicious traditional breakfast recipes using our premium products.",
-    image: "https://images.pexels.com/photos/4397836/pexels-photo-4397836.jpeg",
+    image: "https://images.pexels.com/photos/32293399/pexels-photo-32293399/free-photo-of-breakfast-omelette-and-coffee-on-a-table.jpeg",
     category: "Recipes",
     date: "March 10, 2025",
     readTime: "5 min",
     author: {
       name: "Efua Mensah",
-      avatar: "https://randomuser.me/api/portraits/women/67.jpg"
+      avatar: "https://randomuser.me/api/portraits/women/36.jpg"
     }
   },
   {
@@ -56,7 +56,7 @@ const blogPosts = [
     readTime: "7 min",
     author: {
       name: "Yaw Asante",
-      avatar: "https://randomuser.me/api/portraits/men/32.jpg"
+      avatar: "https://randomuser.me/api/portraits/men/16.jpg"
     }
   },
   {
@@ -64,7 +64,7 @@ const blogPosts = [
     title: "The Rich History of Palm Oil in West African Cooking",
     slug: "palm-oil-history",
     excerpt: "Explore the cultural significance and culinary applications of palm oil in traditional West African cuisine.",
-    image: "https://images.pexels.com/photos/262896/pexels-photo-262896.jpeg",
+    image: "https://images.pexels.com/photos/3066951/pexels-photo-3066951.jpeg",
     category: "Culture",
     date: "March 5, 2025",
     readTime: "6 min",
@@ -78,7 +78,7 @@ const blogPosts = [
     title: "Modern Twists on Traditional Ghanaian Dishes",
     slug: "modern-ghanaian-cuisine",
     excerpt: "Discover innovative ways to incorporate traditional Ghanaian ingredients into contemporary recipes that appeal to modern palates.",
-    image: "https://images.pexels.com/photos/5638527/pexels-photo-5638527.jpeg",
+    image: "https://images.pexels.com/photos/17952748/pexels-photo-17952748/free-photo-of-fried-cubes-and-rice-on-white-plate.jpeg",
     category: "Recipes",
     date: "March 3, 2025",
     readTime: "7 min",

@@ -381,7 +381,7 @@ const CheckoutPage = () => {
                       <button 
                         type="button" 
                         onClick={nextStep}
-                        className="btn btn-primary"
+                        className="btn btn-primary hover:bg-secondary-500"
                       >
                         Continue to Payment
                       </button>
@@ -604,31 +604,33 @@ const CheckoutPage = () => {
             <div className="bg-white dark:bg-slate-800 rounded-xl shadow-soft p-6 sticky top-24">
               <h2 className="text-xl font-heading font-semibold mb-6">Order Summary</h2>
               
-              <div className="divide-y divide-slate-200 dark:divide-slate-700 mb-6">
+              <div className="divide-y divide-slate-200 dark:divide-slate-700 mb-6 max-h-[50vh] overflow-y-auto pr-2">
                 {cart.map((item) => (
-                  <div key={item.id} className="py-4 first:pt-0 flex items-center">
-                    <div className="relative mr-4">
-                      <div className="w-16 h-16 rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-700">
-                        <img 
-                          src={item.image} 
-                          alt={item.name} 
-                          className="w-full h-full object-cover"
-                        />
+                  <div key={item.id} className="py-4 first:pt-0 flex items-center justify-between">
+                    <div className="flex items-center flex-grow min-w-0">
+                      <div className="relative mr-4 flex-shrink-0">
+                        <div className="w-16 h-16 rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-700">
+                          <img 
+                            src={item.image} 
+                            alt={item.name} 
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div className="absolute -top-2 -right-2 w-5 h-5 bg-primary-500 text-white text-xs rounded-full flex items-center justify-center">
+                          {item.quantity}
+                        </div>
                       </div>
-                      <div className="absolute -top-2 -right-2 w-5 h-5 bg-primary-500 text-white text-xs rounded-full flex items-center justify-center">
-                        {item.quantity}
+                      
+                      <div className="min-w-0 flex-grow">
+                        <h4 className="font-medium truncate">{item.name}</h4>
+                        <p className="text-sm text-slate-500 dark:text-slate-400 truncate">
+                          {item.variant}
+                        </p>
                       </div>
                     </div>
                     
-                    <div className="flex-grow">
-                      <h4 className="font-medium truncate">{item.name}</h4>
-                      <p className="text-sm text-slate-500 dark:text-slate-400">
-                        {item.variant}
-                      </p>
-                    </div>
-                    
-                    <div className="font-medium">
-                      ${(item.price * item.quantity).toFixed(2)}
+                    <div className="font-medium ml-4 flex-shrink-0">
+                      ₵{(item.price * item.quantity).toFixed(2)}
                     </div>
                   </div>
                 ))}
@@ -637,7 +639,7 @@ const CheckoutPage = () => {
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between">
                   <span className="text-slate-600 dark:text-slate-400">Subtotal</span>
-                  <span className="font-medium">${subtotal.toFixed(2)}</span>
+                  <span className="font-medium">₵{subtotal.toFixed(2)}</span>
                 </div>
                 
                 <div className="flex justify-between">
@@ -645,13 +647,13 @@ const CheckoutPage = () => {
                   {shipping === 0 ? (
                     <span className="text-success-500">Free</span>
                   ) : (
-                    <span className="font-medium">${shipping.toFixed(2)}</span>
+                    <span className="font-medium">₵{shipping.toFixed(2)}</span>
                   )}
                 </div>
                 
                 <div className="border-t border-slate-200 dark:border-slate-700 pt-3 flex justify-between">
                   <span className="font-medium">Total</span>
-                  <span className="font-bold text-xl">${total.toFixed(2)}</span>
+                  <span className="font-bold text-xl">₵{total.toFixed(2)}</span>
                 </div>
               </div>
               

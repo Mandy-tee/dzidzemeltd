@@ -36,10 +36,10 @@ const Footer = () => {
   };
   
   const socialLinks = [
-    { icon: <FaFacebookF className="w-5 h-5" />, url: 'https://facebook.com', label: 'Facebook' },
-    { icon: <FaInstagram className="w-5 h-5" />, url: 'https://instagram.com', label: 'Instagram' },
-    { icon: <FaLinkedinIn className="w-5 h-5" />, url: 'https://linkedin.com', label: 'LinkedIn' },
-    { icon: <FaTiktok className="w-5 h-5" />, url: 'https://tiktok.com', label: 'TikTok' },
+    { icon: <FaFacebookF className="w-5 h-5" />, url: 'https://facebook.com/Dzidzemehomeventures', label: 'Facebook' },
+    { icon: <FaInstagram className="w-5 h-5" />, url: 'https://instagram.com/ahuntorfoods', label: 'Instagram' },
+    { icon: <FaLinkedinIn className="w-5 h-5" />, url: 'https://linkedin.com/in/abigail-norkplim-agottor-44034a66', label: 'LinkedIn' },
+    { icon: <FaTiktok className="w-5 h-5" />, url: 'https://tiktok.com/@dhome_foods', label: 'TikTok' },
   ];
 
   return (

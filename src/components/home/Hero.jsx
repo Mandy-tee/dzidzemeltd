@@ -11,9 +11,11 @@ import palmoil2Image from '../../images/palmoil2.png';
 import soboloImage from '../../images/sobolo.png';
 import winesImage from '../../images/wines.png';
 import plainriceImage from '../../images/plainrice.png';
+import kokonteImage from '../../images/kokonte.png';
+import gariImage from '../../images/gari.png';
 
 
-const images = [juiceImage, cereamixImage, coconutoilImage, garimixImage, jasminericeImage, palmoil2Image, soboloImage, winesImage, plainriceImage];
+const images = [gariImage, juiceImage, cereamixImage, coconutoilImage, garimixImage, jasminericeImage, palmoil2Image, winesImage, plainriceImage, kokonteImage];
 
 const Hero = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);

@@ -12,6 +12,7 @@ import palmoilImage from '../images/palmoil.png';
 import plainriceImage from '../images/plainrice.png';
 import soboloImage from '../images/sobolo.png';
 import winesImage from '../images/wines.png';
+import kokonteImage from '../images/kokonte.png';
 
 export const allProducts = [
   {
@@ -152,12 +153,12 @@ export const allProducts = [
   },
   {
     id: '7',
-    name: 'Garimix',
+    name: 'Kokonte Flour',
     price: 16.99,
     rating: 4,
-    image: gariImage,
-    category: 'cassava',
-    description: 'Traditional cassava flakes commonly used in Ghanaian cuisine. Perfect for making gari soakings, a popular West African dish.',
+    image: kokonteImage,
+    category: 'grains',
+    description: 'Traditional cassava flour commonly used in Ghanaian cuisine. Perfect for making kokonte, a popular West African dish.',
     variant: '2kg',
     stock: 22,
     createdAt: '2025-02-18T08:40:00Z',
@@ -169,7 +170,7 @@ export const allProducts = [
       width: '15 cm',
       depth: '8 cm'
     },
-    tags: ['cassava', 'traditional', 'gluten-free'],
+    tags: ['flour', 'cassava', 'traditional', 'gluten-free'],
     reviews: 26
   },
   {

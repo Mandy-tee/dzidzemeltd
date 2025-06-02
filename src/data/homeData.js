@@ -12,6 +12,7 @@ import palmoilImage from '../images/palmoil.png';
 import plainriceImage from '../images/plainrice.png';
 import soboloImage from '../images/sobolo.png';
 import winesImage from '../images/wines.png';
+import kokonteImage from '../images/kokonte.png';
 
 export const featuredProducts = [
   {
@@ -141,7 +142,7 @@ export const featuredPosts = [
     title: '5 Delicious Recipes Using Homemade Palm Oil',
     slug: '5-delicious-recipes-using-homemade-palm-oil',
     excerpt: 'Discover the rich flavor of traditional Ghanaian palm oil with these easy-to-follow recipes that will transport your taste buds to West Africa.',
-    image: 'https://images.pexels.com/photos/262896/pexels-photo-262896.jpeg',
+    image: palmoilImage,
     date: 'March 15, 2025',
     readTime: '5 min',
   },
@@ -150,7 +151,7 @@ export const featuredPosts = [
     title: 'The Health Benefits of Coconut Oil in Your Diet',
     slug: 'health-benefits-coconut-oil-diet',
     excerpt: 'Learn about the numerous health benefits of incorporating Ghanaian coconut oil into your daily diet and lifestyle.',
-    image: 'https://images.pexels.com/photos/725998/pexels-photo-725998.jpeg',
+    image: coconutoilImage,
     date: 'March 10, 2025',
     readTime: '4 min',
   },
@@ -159,7 +160,7 @@ export const featuredPosts = [
     title: 'How to Make Perfect Jollof Rice with Ghana Jasmine Rice',
     slug: 'perfect-jollof-rice-ghana-jasmine',
     excerpt: 'Follow our step-by-step guide to creating the perfect pot of Jollof rice using premium Ghana Jasmine rice for authentic flavor.',
-    image: 'https://images.pexels.com/photos/11899547/pexels-photo-11899547.jpeg',
+    image: jasminericeImage,
     date: 'March 5, 2025',
     readTime: '6 min',
   },

@@ -94,7 +94,7 @@ const MiniCart = () => {
                           </button>
                         </div>
                         
-                        <span className="font-medium">${(item.price * item.quantity).toFixed(2)}</span>
+                        <span className="font-medium">₵{(item.price * item.quantity).toFixed(2)}</span>
                       </div>
                     </div>
                   </div>
@@ -105,7 +105,7 @@ const MiniCart = () => {
             <div className="p-4 border-t border-slate-200 dark:border-slate-700">
               <div className="flex justify-between mb-4">
                 <span>Subtotal:</span>
-                <span className="font-semibold">${getCartTotal().toFixed(2)}</span>
+                <span className="font-semibold">₵{getCartTotal().toFixed(2)}</span>
               </div>
               
               <div className="flex justify-between mb-6">
@@ -115,7 +115,7 @@ const MiniCart = () => {
               
               <Link
                 to="/checkout"
-                className="btn btn-primary w-full mb-3 text-center"
+                className="btn btn-primary hover:bg-secondary-500 w-full text-center"
                 onClick={toggleCart}
               >
                 Checkout
@@ -123,7 +123,7 @@ const MiniCart = () => {
               
               <button
                 onClick={toggleCart}
-                className="btn btn-outline w-full text-center"
+                className="btn btn-outline mt-5 w-full text-center"
               >
                 Continue Shopping
               </button>
