@@ -30,7 +30,7 @@ const RegisterPage = () => {
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600">
           Already have an account?{' '}
-          <Link to="/login" className="font-medium text-primary-600 hover:text-primary-500">
+          <Link to="/login" className="font-medium text-secondary-500 hover:text-primary-500">
             Sign in
           </Link>
         </p>
@@ -49,7 +49,7 @@ const RegisterPage = () => {
                   name="firstName"
                   type="text"
                   required
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-700 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-700 dark:text-gray-700 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
                   value={formData.firstName}
                   onChange={handleChange}
                 />
@@ -66,7 +66,7 @@ const RegisterPage = () => {
                   name="lastName"
                   type="text"
                   required
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-700 dark:text-gray-700 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
                   value={formData.lastName}
                   onChange={handleChange}
                 />
@@ -84,7 +84,7 @@ const RegisterPage = () => {
                   type="email"
                   autoComplete="email"
                   required
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-700 dark:text-gray-700 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
                   value={formData.email}
                   onChange={handleChange}
                 />
@@ -102,7 +102,7 @@ const RegisterPage = () => {
                   type="password"
                   autoComplete="new-password"
                   required
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-700 dark:text-gray-700 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
                   value={formData.password}
                   onChange={handleChange}
                 />
@@ -120,7 +120,7 @@ const RegisterPage = () => {
                   type="password"
                   autoComplete="new-password"
                   required
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-700 dark:text-gray-700 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
                   value={formData.confirmPassword}
                   onChange={handleChange}
                 />
