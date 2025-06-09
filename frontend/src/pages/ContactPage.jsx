@@ -94,7 +94,7 @@ const ContactPage = () => {
                       href="mailto:info@ghanafoods.com"
                       className="text-slate-600 dark:text-slate-400 hover:text-primary-500"
                     >
-                      abiloveog@gmail.com
+                      dzidzemehome@gmail.com
                     </a>
                   </div>
                 </div>
