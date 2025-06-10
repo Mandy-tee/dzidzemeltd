@@ -12,9 +12,9 @@ export const addProduct = async (req, res, next) => {
             return res.status(422).json(error);
         }
         // Write product to database
-        await ProductModel.create(value);
+        const createResult = await ProductModel.create(value);
         // Respond to request
-        res.status(201).json("Product added!");
+        res.status(201).json(createResult);
     } catch (error) {
         next(error);
     }
@@ -23,12 +23,16 @@ export const addProduct = async (req, res, next) => {
 export const getProducts = async (req, res, next) => {
     try {
         const { filter = "{}", sort = "{}", limit = 10, skip = 0 } = req.query;
+        // Get total count of documents (BEFORE applying limit and skip)
+        const totalCount = await ProductModel.countDocuments({});
         // Fetch products from database
         const products = await ProductModel
             .find(JSON.parse(filter))
             .sort(JSON.parse(sort))
             .limit(limit)
             .skip(skip);
+        // Set X-Total-Count header
+        res.set('X-Total-Count', totalCount);
         // Return response
         res.status(200).json(products);
     } catch (error) {

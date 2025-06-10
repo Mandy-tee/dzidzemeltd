@@ -20,9 +20,12 @@ import ContactPage from './pages/ContactPage';
 import AboutPage from './pages/AboutPage';
 import NotFoundPage from './pages/NotFoundPage';
 
+// Admin
+import MyAdmin from './admin';
+
 function App() {
   const location = useLocation();
-  
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
@@ -45,6 +48,7 @@ function App() {
           <Route path="about" element={<AboutPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
+        <Route path='/admin/*' element={<MyAdmin />} />
       </Routes>
     </AnimatePresence>
   );

@@ -11,7 +11,9 @@ const app = express();
 
 // Apply global middlewares
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    exposedHeaders: ['X-Total-Count'],
+}));
 
 // Use routes
 app.use(productRouter);
