@@ -109,7 +109,7 @@ const ContactPage = () => {
                       href="tel:+233200123456"
                       className="text-slate-600 dark:text-slate-400 hover:text-primary-500"
                     >
-                      +233 20 012 3456
+                      +233 26 310 9918
                     </a>
                   </div>
                 </div>
@@ -121,8 +121,8 @@ const ContactPage = () => {
                   <div className="ml-4">
                     <h3 className="font-medium mb-1">Address</h3>
                     <p className="text-slate-600 dark:text-slate-400">
-                      123 Independence Avenue<br />
-                      Accra, Ghana
+                      Akatsi High Street<br />
+                      Ho, Ghana
                     </p>
                   </div>
                 </div>

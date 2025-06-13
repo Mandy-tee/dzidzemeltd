@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import aboutImage from '../images/about.png';
+import portfolioImage from '../images/portfolio.png'
 
 const AboutPage = () => {
   return (
@@ -87,8 +88,8 @@ const AboutPage = () => {
                 <div className="absolute -top-4 -right-4 w-full h-full bg-secondary-500 rounded-xl"></div>
                 <div className="relative bg-white dark:bg-slate-800 rounded-xl overflow-hidden shadow-xl">
                   <img 
-                    src="https://images.pexels.com/photos/2381069/pexels-photo-2381069.jpeg"
-                    alt="Kwame Mensah - Founder"
+                    src={portfolioImage}
+                    alt="Abigail Agottor - Founder"
                     className="w-full h-full object-cover aspect-square"
                   />
                 </div>

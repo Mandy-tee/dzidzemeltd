@@ -1,18 +1,19 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { 
+import {
   ShoppingBagIcon,
   ChevronRightIcon,
   ArrowLeftIcon,
   LockClosedIcon
 } from '@heroicons/react/24/outline';
 import { useCart } from '../contexts/CartContext';
+import CheckoutSdk from "@hubteljs/checkout";
 
 const CheckoutPage = () => {
   const { cart, getCartTotal, clearCart } = useCart();
   const navigate = useNavigate();
-  
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -33,24 +34,24 @@ const CheckoutPage = () => {
     momoNumber: '',
     saveInfo: true,
   });
-  
+
   const [formErrors, setFormErrors] = useState({});
   const [isProcessing, setIsProcessing] = useState(false);
   const [step, setStep] = useState(1);
-  
+
   useEffect(() => {
     if (cart.length === 0) {
       navigate('/cart');
     }
   }, [cart, navigate]);
-  
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
-    
+
     // Clear error for this field when user types
     if (formErrors[name]) {
       setFormErrors(prev => ({
@@ -59,10 +60,10 @@ const CheckoutPage = () => {
       }));
     }
   };
-  
+
   const validateStep = (stepNumber) => {
     const errors = {};
-    
+
     if (stepNumber === 1) {
       if (!formData.firstName.trim()) errors.firstName = 'First name is required';
       if (!formData.lastName.trim()) errors.lastName = 'Last name is required';
@@ -82,30 +83,30 @@ const CheckoutPage = () => {
         if (!formData.momoNumber.trim()) errors.momoNumber = 'Mobile money number is required';
       }
     }
-    
+
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
-  
+
   const nextStep = () => {
     if (validateStep(step)) {
       setStep(step + 1);
       window.scrollTo(0, 0);
     }
   };
-  
+
   const prevStep = () => {
     setStep(step - 1);
     window.scrollTo(0, 0);
   };
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     if (!validateStep(step)) return;
-    
+
     setIsProcessing(true);
-    
+
     // Simulate processing payment
     setTimeout(() => {
       setIsProcessing(false);
@@ -114,17 +115,60 @@ const CheckoutPage = () => {
       navigate('/order-confirmation');
     }, 2000);
   };
-  
+
+  const hubtelCheckout = () => {
+    // Initialize the Checkout SDK
+    const checkout = new CheckoutSdk();
+
+    // Purchase information
+    const purchaseInfo = {
+      amount: 50,
+      purchaseDescription:
+        "Payment of GHS 5.00 for (18013782) (MR SOMUAH STA ADANE-233557913587)",
+      customerPhoneNumber: "233557913587",
+      clientReference: "unique-client-reference-12345",
+    };
+
+    // Configuration options
+    const config = {
+      branding: "enabled",
+      callbackUrl: "https://yourcallbackurl.com",
+      merchantAccount: 11334,
+      basicAuth: "your-basic-auth-here",
+    };
+
+    // A function to open the payment modal
+    checkout.openModal({
+      purchaseInfo,
+      config,
+      callBacks: {
+        onInit: () => console.log("Iframe initialized: "),
+        onPaymentSuccess: (data) => {
+          console.log("Payment succeeded: ", data);
+          // You can close the popup here
+          checkout.closePopUp();
+        },
+        onPaymentFailure: (data) => console.log("Payment failed: ", data),
+        onLoad: () => console.log("Checkout has been loaded: "),
+        onFeesChanged: (fees) =>
+          console.log("Payment channel has changed: ", fees),
+        onResize: (size) =>
+          console.log("Iframe has been resized: ", size?.height),
+        onClose: (size) => console.log("The modal has closed ", size?.height),
+      },
+    });
+  }
+
   const subtotal = getCartTotal();
   const shipping = formData.shippingMethod === 'express' ? 15 : (subtotal > 50 ? 0 : 10);
   const total = subtotal + shipping;
-  
+
   return (
     <div className="pt-24 pb-16">
       <div className="container-custom max-w-6xl">
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-3xl md:text-4xl font-heading font-bold">Checkout</h1>
-          
+
           <div className="hidden sm:flex items-center text-sm font-medium">
             <Link to="/cart" className={`${step > 1 ? 'text-primary-500' : 'text-slate-800 dark:text-slate-200'}`}>
               Cart
@@ -143,9 +187,9 @@ const CheckoutPage = () => {
             </span>
           </div>
         </div>
-        
+
         <div className="mb-6">
-          <Link 
+          <Link
             to={step === 1 ? "/cart" : "#"}
             onClick={step > 1 ? prevStep : undefined}
             className="inline-flex items-center text-slate-600 dark:text-slate-400 hover:text-primary-500"
@@ -154,7 +198,7 @@ const CheckoutPage = () => {
             {step === 1 ? 'Back to Cart' : 'Back to Information'}
           </Link>
         </div>
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Checkout Form */}
           <div className="lg:col-span-2">
@@ -164,7 +208,7 @@ const CheckoutPage = () => {
                   {step === 1 ? 'Shipping Information' : 'Payment Method'}
                 </h2>
               </div>
-              
+
               <form onSubmit={handleSubmit} className="p-6">
                 {step === 1 && (
                   <motion.div
@@ -178,7 +222,7 @@ const CheckoutPage = () => {
                         <label htmlFor="firstName" className="block mb-1 font-medium">
                           First Name *
                         </label>
-                        <input 
+                        <input
                           type="text"
                           id="firstName"
                           name="firstName"
@@ -190,12 +234,12 @@ const CheckoutPage = () => {
                           <p className="mt-1 text-sm text-accent-500">{formErrors.firstName}</p>
                         )}
                       </div>
-                      
+
                       <div>
                         <label htmlFor="lastName" className="block mb-1 font-medium">
                           Last Name *
                         </label>
-                        <input 
+                        <input
                           type="text"
                           id="lastName"
                           name="lastName"
@@ -208,13 +252,13 @@ const CheckoutPage = () => {
                         )}
                       </div>
                     </div>
-                    
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                       <div>
                         <label htmlFor="email" className="block mb-1 font-medium">
                           Email Address *
                         </label>
-                        <input 
+                        <input
                           type="email"
                           id="email"
                           name="email"
@@ -226,12 +270,12 @@ const CheckoutPage = () => {
                           <p className="mt-1 text-sm text-accent-500">{formErrors.email}</p>
                         )}
                       </div>
-                      
+
                       <div>
                         <label htmlFor="phone" className="block mb-1 font-medium">
                           Phone Number *
                         </label>
-                        <input 
+                        <input
                           type="tel"
                           id="phone"
                           name="phone"
@@ -244,12 +288,12 @@ const CheckoutPage = () => {
                         )}
                       </div>
                     </div>
-                    
+
                     <div className="mb-6">
                       <label htmlFor="address" className="block mb-1 font-medium">
                         Address *
                       </label>
-                      <input 
+                      <input
                         type="text"
                         id="address"
                         name="address"
@@ -261,13 +305,13 @@ const CheckoutPage = () => {
                         <p className="mt-1 text-sm text-accent-500">{formErrors.address}</p>
                       )}
                     </div>
-                    
+
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                       <div>
                         <label htmlFor="city" className="block mb-1 font-medium">
                           City *
                         </label>
-                        <input 
+                        <input
                           type="text"
                           id="city"
                           name="city"
@@ -279,12 +323,12 @@ const CheckoutPage = () => {
                           <p className="mt-1 text-sm text-accent-500">{formErrors.city}</p>
                         )}
                       </div>
-                      
+
                       <div>
                         <label htmlFor="state" className="block mb-1 font-medium">
                           State / Region
                         </label>
-                        <input 
+                        <input
                           type="text"
                           id="state"
                           name="state"
@@ -293,12 +337,12 @@ const CheckoutPage = () => {
                           className="form-input"
                         />
                       </div>
-                      
+
                       <div>
                         <label htmlFor="postalCode" className="block mb-1 font-medium">
                           Postal Code *
                         </label>
-                        <input 
+                        <input
                           type="text"
                           id="postalCode"
                           name="postalCode"
@@ -311,12 +355,12 @@ const CheckoutPage = () => {
                         )}
                       </div>
                     </div>
-                    
+
                     <div className="mb-6">
                       <label htmlFor="country" className="block mb-1 font-medium">
                         Country *
                       </label>
-                      <select 
+                      <select
                         id="country"
                         name="country"
                         value={formData.country}
@@ -330,13 +374,13 @@ const CheckoutPage = () => {
                         <option value="Canada">Canada</option>
                       </select>
                     </div>
-                    
+
                     <div className="mb-6">
                       <h3 className="font-medium mb-3">Shipping Method</h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <label className={`border ${formData.shippingMethod === 'standard' ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/30' : 'border-slate-300 dark:border-slate-600'} rounded-lg p-4 cursor-pointer transition-colors`}>
                           <div className="flex items-start">
-                            <input 
+                            <input
                               type="radio"
                               name="shippingMethod"
                               value="standard"
@@ -347,15 +391,15 @@ const CheckoutPage = () => {
                             <div>
                               <div className="font-medium">Standard Shipping</div>
                               <div className="text-sm text-slate-600 dark:text-slate-400">
-                                {subtotal > 50 ? 'Free' : '$10.00'} (2-5 business days)
+                                {subtotal > 50 ? 'Free' : '₵10.00'} (2-5 business days)
                               </div>
                             </div>
                           </div>
                         </label>
-                        
+
                         <label className={`border ${formData.shippingMethod === 'express' ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/30' : 'border-slate-300 dark:border-slate-600'} rounded-lg p-4 cursor-pointer transition-colors`}>
                           <div className="flex items-start">
-                            <input 
+                            <input
                               type="radio"
                               name="shippingMethod"
                               value="express"
@@ -366,21 +410,21 @@ const CheckoutPage = () => {
                             <div>
                               <div className="font-medium">Express Shipping</div>
                               <div className="text-sm text-slate-600 dark:text-slate-400">
-                                $15.00 (1-2 business days)
+                                ₵15.00 (1-2 business days)
                               </div>
                             </div>
                           </div>
                         </label>
                       </div>
                     </div>
-                    
+
                     <div className="flex justify-between mt-8">
                       <Link to="/cart" className="btn btn-outline">
                         Back to Cart
                       </Link>
-                      <button 
-                        type="button" 
-                        onClick={nextStep}
+                      <button
+                        type="button"
+                        onClick={hubtelCheckout}
                         className="btn btn-primary hover:bg-secondary-500"
                       >
                         Continue to Payment
@@ -388,7 +432,7 @@ const CheckoutPage = () => {
                     </div>
                   </motion.div>
                 )}
-                
+
                 {step === 2 && (
                   <motion.div
                     initial={{ opacity: 0, x: 20 }}
@@ -401,7 +445,7 @@ const CheckoutPage = () => {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                         <label className={`border ${formData.paymentMethod === 'card' ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/30' : 'border-slate-300 dark:border-slate-600'} rounded-lg p-4 cursor-pointer transition-colors`}>
                           <div className="flex items-start">
-                            <input 
+                            <input
                               type="radio"
                               name="paymentMethod"
                               value="card"
@@ -417,10 +461,10 @@ const CheckoutPage = () => {
                             </div>
                           </div>
                         </label>
-                        
+
                         <label className={`border ${formData.paymentMethod === 'momo' ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/30' : 'border-slate-300 dark:border-slate-600'} rounded-lg p-4 cursor-pointer transition-colors`}>
                           <div className="flex items-start">
-                            <input 
+                            <input
                               type="radio"
                               name="paymentMethod"
                               value="momo"
@@ -437,7 +481,7 @@ const CheckoutPage = () => {
                           </div>
                         </label>
                       </div>
-                      
+
                       {formData.paymentMethod === 'card' && (
                         <div className="border border-slate-300 dark:border-slate-600 rounded-lg p-6">
                           <div className="flex items-center mb-6">
@@ -446,12 +490,12 @@ const CheckoutPage = () => {
                               Your payment information is secure and encrypted
                             </span>
                           </div>
-                          
+
                           <div className="mb-6">
                             <label htmlFor="cardNumber" className="block mb-1 font-medium">
                               Card Number *
                             </label>
-                            <input 
+                            <input
                               type="text"
                               id="cardNumber"
                               name="cardNumber"
@@ -464,12 +508,12 @@ const CheckoutPage = () => {
                               <p className="mt-1 text-sm text-accent-500">{formErrors.cardNumber}</p>
                             )}
                           </div>
-                          
+
                           <div className="mb-6">
                             <label htmlFor="cardName" className="block mb-1 font-medium">
                               Name on Card *
                             </label>
-                            <input 
+                            <input
                               type="text"
                               id="cardName"
                               name="cardName"
@@ -481,13 +525,13 @@ const CheckoutPage = () => {
                               <p className="mt-1 text-sm text-accent-500">{formErrors.cardName}</p>
                             )}
                           </div>
-                          
+
                           <div className="grid grid-cols-2 gap-4">
                             <div>
                               <label htmlFor="cardExpiry" className="block mb-1 font-medium">
                                 Expiry Date *
                               </label>
-                              <input 
+                              <input
                                 type="text"
                                 id="cardExpiry"
                                 name="cardExpiry"
@@ -500,12 +544,12 @@ const CheckoutPage = () => {
                                 <p className="mt-1 text-sm text-accent-500">{formErrors.cardExpiry}</p>
                               )}
                             </div>
-                            
+
                             <div>
                               <label htmlFor="cardCvc" className="block mb-1 font-medium">
                                 CVC *
                               </label>
-                              <input 
+                              <input
                                 type="text"
                                 id="cardCvc"
                                 name="cardCvc"
@@ -521,14 +565,14 @@ const CheckoutPage = () => {
                           </div>
                         </div>
                       )}
-                      
+
                       {formData.paymentMethod === 'momo' && (
                         <div className="border border-slate-300 dark:border-slate-600 rounded-lg p-6">
                           <div className="mb-6">
                             <label htmlFor="momoProvider" className="block mb-1 font-medium">
                               Mobile Money Provider *
                             </label>
-                            <select 
+                            <select
                               id="momoProvider"
                               name="momoProvider"
                               value={formData.momoProvider}
@@ -540,12 +584,12 @@ const CheckoutPage = () => {
                               <option value="vodafone">Telecel Cash</option>
                             </select>
                           </div>
-                          
+
                           <div>
                             <label htmlFor="momoNumber" className="block mb-1 font-medium">
                               Mobile Money Number *
                             </label>
-                            <input 
+                            <input
                               type="tel"
                               id="momoNumber"
                               name="momoNumber"
@@ -561,10 +605,10 @@ const CheckoutPage = () => {
                         </div>
                       )}
                     </div>
-                    
+
                     <div className="mt-6">
                       <label className="flex items-start cursor-pointer">
-                        <input 
+                        <input
                           type="checkbox"
                           name="saveInfo"
                           checked={formData.saveInfo}
@@ -576,16 +620,16 @@ const CheckoutPage = () => {
                         </span>
                       </label>
                     </div>
-                    
+
                     <div className="flex justify-between mt-8">
-                      <button 
-                        type="button" 
+                      <button
+                        type="button"
                         onClick={prevStep}
                         className="btn btn-outline"
                       >
                         Back to Information
                       </button>
-                      <button 
+                      <button
                         type="submit"
                         className="btn btn-primary"
                         disabled={isProcessing}
@@ -598,21 +642,21 @@ const CheckoutPage = () => {
               </form>
             </div>
           </div>
-          
+
           {/* Order Summary */}
           <div>
             <div className="bg-white dark:bg-slate-800 rounded-xl shadow-soft p-6 sticky top-24">
               <h2 className="text-xl font-heading font-semibold mb-6">Order Summary</h2>
-              
+
               <div className="divide-y divide-slate-200 dark:divide-slate-700 mb-6 max-h-[50vh] overflow-y-auto pr-2">
                 {cart.map((item) => (
                   <div key={item.id} className="py-4 first:pt-0 flex items-center justify-between">
                     <div className="flex items-center flex-grow min-w-0">
                       <div className="relative mr-4 flex-shrink-0">
                         <div className="w-16 h-16 rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-700">
-                          <img 
-                            src={item.image} 
-                            alt={item.name} 
+                          <img
+                            src={item.image}
+                            alt={item.name}
                             className="w-full h-full object-cover"
                           />
                         </div>
@@ -620,7 +664,7 @@ const CheckoutPage = () => {
                           {item.quantity}
                         </div>
                       </div>
-                      
+
                       <div className="min-w-0 flex-grow">
                         <h4 className="font-medium truncate">{item.name}</h4>
                         <p className="text-sm text-slate-500 dark:text-slate-400 truncate">
@@ -628,20 +672,20 @@ const CheckoutPage = () => {
                         </p>
                       </div>
                     </div>
-                    
+
                     <div className="font-medium ml-4 flex-shrink-0">
                       ₵{(item.price * item.quantity).toFixed(2)}
                     </div>
                   </div>
                 ))}
               </div>
-              
+
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between">
                   <span className="text-slate-600 dark:text-slate-400">Subtotal</span>
                   <span className="font-medium">₵{subtotal.toFixed(2)}</span>
                 </div>
-                
+
                 <div className="flex justify-between">
                   <span className="text-slate-600 dark:text-slate-400">Shipping</span>
                   {shipping === 0 ? (
@@ -650,13 +694,13 @@ const CheckoutPage = () => {
                     <span className="font-medium">₵{shipping.toFixed(2)}</span>
                   )}
                 </div>
-                
+
                 <div className="border-t border-slate-200 dark:border-slate-700 pt-3 flex justify-between">
                   <span className="font-medium">Total</span>
                   <span className="font-bold text-xl">₵{total.toFixed(2)}</span>
                 </div>
               </div>
-              
+
               <div className="text-sm text-slate-500 dark:text-slate-400">
                 <div className="flex items-center justify-center mb-2">
                   <LockClosedIcon className="w-4 h-4 mr-1" />

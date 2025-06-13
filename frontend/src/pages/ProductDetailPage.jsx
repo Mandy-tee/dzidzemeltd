@@ -192,11 +192,11 @@ const ProductDetailPage = () => {
                 <div className="flex items-center">
                   {product.oldPrice && (
                     <span className="text-slate-400 line-through text-lg mr-3">
-                      ${product.oldPrice.toFixed(2)}
+                      ₵{product.oldPrice.toFixed(2)}
                     </span>
                   )}
                   <span className="text-3xl font-bold text-slate-800 dark:text-white">
-                    ${product.price.toFixed(2)}
+                    ₵{product.price.toFixed(2)}
                   </span>
                 </div>
                 
