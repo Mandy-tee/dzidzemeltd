@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import toast from 'react-hot-toast';
 import {
   ChevronRightIcon,
   ArrowLeftIcon,
@@ -14,6 +15,7 @@ const CheckoutPage = () => {
   const { cart, getCartTotal, clearCart } = useCart();
   const { currentUser } = useAuth();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (cart.length === 0) {
@@ -23,32 +25,39 @@ const CheckoutPage = () => {
 
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!currentUser) return navigate('/login?returnUrl=/checkout');
-    const data = new FormData(e.target);
-    // Create Order via Backend API
-    const response = await apiClient.post('/orders', {
-      firstName: data.get('firstName'),
-      lastName: data.get('lastName'),
-      email: data.get('email'),
-      phone: data.get('phone'),
-      address: data.get('address'),
-      city: data.get('city'),
-      region: data.get('region'),
-      postalCode: data.get('postalCode'),
-      country: data.get('country'),
-      items: cart.map(item => ({
-        product: item.id,
-        price: item.price,
-        quantity: item.quantity
-      })),
-    }, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('AUTH_TOKEN')}`
-      }
-    });
-    // Load Hubtel Invoice URL for payment
-    window.location.replace(response.data.checkoutUrl);
+    setLoading(true);
+    try {
+      e.preventDefault();
+      if (!currentUser) return navigate('/login?returnUrl=/checkout');
+      const data = new FormData(e.target);
+      // Create Order via Backend API
+      const response = await apiClient.post('/orders', {
+        firstName: data.get('firstName'),
+        lastName: data.get('lastName'),
+        email: data.get('email'),
+        phone: data.get('phone'),
+        address: data.get('address'),
+        city: data.get('city'),
+        region: data.get('region'),
+        postalCode: data.get('postalCode'),
+        country: data.get('country'),
+        items: cart.map(item => ({
+          product: item.id,
+          price: item.price,
+          quantity: item.quantity
+        })),
+      }, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('AUTH_TOKEN')}`
+        }
+      });
+      // Load Hubtel Invoice URL for payment
+      window.location.replace(response.data.checkoutUrl);
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -229,9 +238,10 @@ const CheckoutPage = () => {
                     </Link>
                     <button
                       type="submit"
+                      disabled={loading}
                       className="btn btn-primary hover:bg-secondary-500"
                     >
-                      Continue to Payment
+                      {loading ? 'Loading...' : 'Continue to Payment'}
                     </button>
                   </div>
                 </motion.div>

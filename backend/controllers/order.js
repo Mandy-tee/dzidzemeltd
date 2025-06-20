@@ -78,7 +78,12 @@ export const getOrder = async (req, res, next) => {
     try {
         const { id } = req.params;
         // Get order by id from database
-        const order = await OrderModel.findById(id);
+        const order = await OrderModel
+            .findById(id)
+            .populate([
+                { path: 'user', select: { name: true, email: true } },
+                { path: 'items.product', select: { name: true, description: true } },
+            ]);
         if (!order) {
             return res.status(404).json('Order not found!');
         }
@@ -118,14 +123,45 @@ export const deleteOrder = async (req, res, next) => {
     }
 }
 
+export const refreshOrderPaymentStatus = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        // Find order by id from database
+        const order = await OrderModel.findById(id);
+        if (!order) {
+            return res.status(404).json('Order not found!');
+        }
+        // Call Hubtel transaction status API
+        const hubtelResponse = await axios.get(`https://api-txnstatus.hubtel.com/transactions/${process.env.HUBTEL_PAYMENT_MERCHANT_ACCOUNT_NUMBER}/status?clientReference=${id}`, {
+            headers: {
+                Authorization: `Basic ${btoa(`${process.env.HUBTEL_PAYMENT_API_ID}:${process.env.HUBTEL_PAYMENT_API_KEY}`)}`
+            }
+        });
+        // Update order paymentStatus
+        const { data: { status } } = hubtelResponse.data;
+        console.log('Hubtel Transaction Status Check >>>', id, status);
+        if (status === 'Paid') {
+            await OrderModel.findByIdAndUpdate(id, { paymentStatus: 'PAYMENT_SUCCESSFUL' });
+        }
+        if (status === 'Unpaid') {
+            await OrderModel.findByIdAndUpdate(id, { paymentStatus: 'PAYMENT_CANCELLED' });
+        }
+        // Respond to request
+        res.status(200).json("Order status refreshed!");
+    } catch (error) {
+        next(error);
+    }
+}
+
 export const confirmOrder = async (req, res, next) => {
     try {
         const { Data: { ClientReference, Status } } = req.body;
-        console.log(ClientReference, Status);
+        console.log('Hubtel Payment Callback >>>', ClientReference, Status);
         // Update order by id from database
         if (Status === "Success") {
             await OrderModel.findByIdAndUpdate(ClientReference, { paymentStatus: 'PAYMENT_SUCCESSFUL' });
-        } else {
+        }
+        if (Status === 'Failed') {
             await OrderModel.findByIdAndUpdate(ClientReference, { paymentStatus: 'PAYMENT_CANCELLED' });
         }
         // Respond to request

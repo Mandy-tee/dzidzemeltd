@@ -1,4 +1,4 @@
-import { Admin, EditGuesser, ListGuesser, Resource, ShowGuesser } from "react-admin";
+import { Admin, Resource, ShowGuesser } from "react-admin";
 import jsonServerProvider from "ra-data-json-server";
 import CategoryIcon from '@mui/icons-material/Category';
 import InventoryIcon from '@mui/icons-material/Inventory';
@@ -9,6 +9,7 @@ import CreateCategory from "./categories/CreateCategory";
 import EditCategory from "./categories/EditCategory";
 import ProductList from "./products/ProductList";
 import CategoryList from "./categories/CategoryList";
+import OrderList from "./orders/OrderList";
 
 const dataProvider = jsonServerProvider(import.meta.env.VITE_BACKEND_URL);
 
@@ -31,7 +32,8 @@ const MyAdmin = () => (
     <Resource
       icon={LocalMallIcon}
       name="orders"
-      list={ListGuesser}
+      list={OrderList}
+      show={ShowGuesser}
     />
   </Admin>
 );
