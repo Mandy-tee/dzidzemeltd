@@ -13,7 +13,7 @@ productRouter.get("/products/count", countProducts);
 
 productRouter.get("/products/:id", getProduct);
 
-productRouter.patch("/products/:id", updateProduct);
+productRouter.put("/products/:id", updateProduct);
 
 productRouter.delete("/products/:id", deleteProduct);
 

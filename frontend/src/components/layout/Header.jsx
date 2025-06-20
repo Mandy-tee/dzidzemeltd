@@ -64,8 +64,8 @@ const Header = () => {
     <>
       <header
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled
-            ? 'bg-white dark:bg-slate-900 shadow-md py-2'
-            : 'bg-transparent py-4'
+          ? 'bg-white dark:bg-slate-900 shadow-md py-2'
+          : 'bg-transparent py-4'
           }`}
       >
         <div className="container-custom flex items-center justify-between">
@@ -95,13 +95,13 @@ const Header = () => {
           </nav>
 
           <div className="flex items-center space-x-4">
-            <button
+            {/* <button
               onClick={() => setIsSearchOpen(true)}
               className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200"
               aria-label="Search"
             >
               <MagnifyingGlassIcon className="w-5 h-5" />
-            </button>
+            </button> */}
 
             <button
               onClick={toggleTheme}
@@ -214,7 +214,7 @@ const Header = () => {
       </AnimatePresence>
 
       {/* Search Overlay */}
-      <AnimatePresence>
+      {/* <AnimatePresence>
         {isSearchOpen && (
           <motion.div
             className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-start justify-center pt-24"
@@ -265,7 +265,7 @@ const Header = () => {
             </motion.div>
           </motion.div>
         )}
-      </AnimatePresence>
+      </AnimatePresence> */}
 
       {/* Mini Cart */}
       <AnimatePresence>

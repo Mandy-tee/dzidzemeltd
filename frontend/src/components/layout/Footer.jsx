@@ -2,16 +2,19 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import mtnlogoImage from '../../images/mtnlogo.png';
 import Logo from '../common/Logo';
-import { 
-  FaFacebookF, 
-  FaInstagram, 
+import {
+  FaFacebookF,
+  FaInstagram,
   FaLinkedinIn,
   FaTiktok
 } from 'react-icons/fa';
+import useSWR from 'swr';
+import { apiFetcher } from '../../api/client';
 
 const Footer = () => {
+  const { data: categories } = useSWR('/categories', apiFetcher);
   const currentYear = new Date().getFullYear();
-  
+
   const footerLinks = {
     shop: [
       { name: 'All Products', path: '/products' },
@@ -35,7 +38,7 @@ const Footer = () => {
       { name: 'Track Order', path: '/track-order' },
     ],
   };
-  
+
   const socialLinks = [
     { icon: <FaFacebookF className="w-5 h-5" />, url: 'https://facebook.com/Dzidzemehomeventures', label: 'Facebook' },
     { icon: <FaInstagram className="w-5 h-5" />, url: 'https://instagram.com/ahuntorfoods', label: 'Instagram' },
@@ -53,10 +56,10 @@ const Footer = () => {
               Bringing the authentic taste of Ghana to your homes. Our carefully curated selection
               of premium Ghanaian ingredients offers natural and organic Ghana-made food products.
             </p>
-            
+
             <div className="mt-6 flex space-x-4">
               {socialLinks.map((link, index) => (
-                <a 
+                <a
                   key={index}
                   href={link.url}
                   target="_blank"
@@ -69,29 +72,29 @@ const Footer = () => {
               ))}
             </div>
           </div>
-          
+
           <div>
             <h4 className="font-heading text-lg font-semibold mb-4">Shop</h4>
             <ul className="space-y-2">
-              {footerLinks.shop.map((link, index) => (
-                <li key={index}>
-                  <Link 
-                    to={link.path}
+              {categories?.map((category) => (
+                <li key={category.id}>
+                  <Link
+                    to={`/products?category=${category.id}`}
                     className="text-slate-600 dark:text-slate-400 hover:text-primary-500 dark:hover:text-primary-500 transition-colors duration-200"
                   >
-                    {link.name}
+                    {category.name}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
-          
+
           <div>
             <h4 className="font-heading text-lg font-semibold mb-4">Company</h4>
             <ul className="space-y-2">
               {footerLinks.company.map((link, index) => (
                 <li key={index}>
-                  <Link 
+                  <Link
                     to={link.path}
                     className="text-slate-600 dark:text-slate-400 hover:text-primary-500 dark:hover:text-primary-500 transition-colors duration-200"
                   >
@@ -101,13 +104,13 @@ const Footer = () => {
               ))}
             </ul>
           </div>
-          
+
           <div>
             <h4 className="font-heading text-lg font-semibold mb-4">Help</h4>
             <ul className="space-y-2">
               {footerLinks.help.map((link, index) => (
                 <li key={index}>
-                  <Link 
+                  <Link
                     to={link.path}
                     className="text-slate-600 dark:text-slate-400 hover:text-primary-500 dark:hover:text-primary-500 transition-colors duration-200"
                   >
@@ -118,31 +121,31 @@ const Footer = () => {
             </ul>
           </div>
         </div>
-        
+
         <div className="mt-12 pt-6 border-t border-slate-200 dark:border-slate-700 flex flex-col md:flex-row justify-between items-center">
           <p className="text-slate-500 dark:text-slate-500 text-sm">
             &copy; {currentYear} Dzidzeme Home Group Ltd. All rights reserved.
           </p>
-          
+
           <div className="mt-4 md:mt-0 flex flex-wrap justify-center gap-4">
-            <img 
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Stripe_Logo%2C_revised_2016.svg/2560px-Stripe_Logo%2C_revised_2016.svg.png" 
-              alt="Stripe" 
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Stripe_Logo%2C_revised_2016.svg/2560px-Stripe_Logo%2C_revised_2016.svg.png"
+              alt="Stripe"
               className="h-6 object-contain"
             />
-            <img 
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" 
-              alt="Visa" 
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png"
+              alt="Visa"
               className="h-6 object-contain"
             />
-            <img 
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png" 
-              alt="Mastercard" 
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png"
+              alt="Mastercard"
               className="h-6 object-contain"
             />
-            <img 
-              src={mtnlogoImage} 
-              alt="MTN Mobile Money" 
+            <img
+              src={mtnlogoImage}
+              alt="MTN Mobile Money"
               className="h-6 object-contain"
             />
           </div>

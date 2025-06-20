@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
@@ -7,13 +6,17 @@ import TestimonialCard from '../components/home/TestimonialCard';
 import CategoryCard from '../components/home/CategoryCard';
 import FeaturedBlogPost from '../components/home/FeaturedBlogPost';
 import Hero from '../components/home/Hero';
-import { featuredProducts, productCategories, testimonials, featuredPosts } from '../data/homeData';
+import { productCategories, testimonials, featuredPosts } from '../data/homeData';
+import useSWR from "swr";
+import { apiFetcher } from '../api/client';
 
 const HomePage = () => {
+  const { data: featuredProducts } = useSWR(`/products?_start=0&_end=4&sort={"isFeatured":"desc"}`, apiFetcher);
+
   return (
     <div>
       <Hero />
-      
+
       {/* Categories Section */}
       <section className="py-16 bg-white dark:bg-slate-900">
         <div className="container-custom">
@@ -23,7 +26,7 @@ const HomePage = () => {
               Discover our wide range of authentic Ghanaian products carefully selected for quality and taste.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
             {productCategories.map((category) => (
               <CategoryCard key={category.id} category={category} />
@@ -31,7 +34,7 @@ const HomePage = () => {
           </div>
         </div>
       </section>
-      
+
       {/* Featured Products Section */}
       <section className="py-16 bg-slate-50 dark:bg-slate-800">
         <div className="container-custom">
@@ -42,23 +45,23 @@ const HomePage = () => {
                 Our best-selling authentic Ghanaian products that customers love.
               </p>
             </div>
-            
-            <Link 
-              to="/products" 
+
+            <Link
+              to="/products"
               className="mt-4 md:mt-0 inline-flex items-center font-medium text-primary-500 hover:text-primary-600"
             >
               View All Products <ArrowRightIcon className="w-5 h-5 ml-2" />
             </Link>
           </div>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredProducts.map((product) => (
+            {featuredProducts?.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
         </div>
       </section>
-      
+
       {/* Why Choose Us Section */}
       <section className="py-16 bg-white dark:bg-slate-900">
         <div className="container-custom">
@@ -68,7 +71,7 @@ const HomePage = () => {
               We're dedicated to bringing you the finest Ghanaian products with exceptional service.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
@@ -103,7 +106,7 @@ const HomePage = () => {
           </div>
         </div>
       </section>
-      
+
       {/* Testimonials Section */}
       <section className="py-16 bg-primary-500 dark:bg-secondary-500">
         <div className="container-custom">
@@ -113,7 +116,7 @@ const HomePage = () => {
               Don't just take our word for it. Here's what our customers have to say about our products.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
               <TestimonialCard key={index} testimonial={testimonial} />
@@ -121,7 +124,7 @@ const HomePage = () => {
           </div>
         </div>
       </section>
-      
+
       {/* Blog Section */}
       <section className="py-16 bg-white dark:bg-slate-900">
         <div className="container-custom">
@@ -132,15 +135,15 @@ const HomePage = () => {
                 Learn more about Ghanaian cuisine, culture, and how to enjoy our products.
               </p>
             </div>
-            
-            <Link 
-              to="/blog" 
+
+            <Link
+              to="/blog"
               className="mt-4 md:mt-0 inline-flex items-center font-medium text-primary-500 hover:text-primary-600"
             >
               View All Posts <ArrowRightIcon className="w-5 h-5 ml-2" />
             </Link>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {featuredPosts.map((post) => (
               <FeaturedBlogPost key={post.id} post={post} />

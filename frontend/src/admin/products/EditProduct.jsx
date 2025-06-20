@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import useDrivePicker from "react-google-drive-picker";
-import { SimpleForm, TextInput, Create, ReferenceInput, BooleanInput, NumberInput } from 'react-admin';
+import { SimpleForm, TextInput, Edit, ReferenceInput, BooleanInput, NumberInput } from 'react-admin';
+import EditToolbar from '../common/EditToolbar';
 
-const CreateProduct = () => {
+const EditProduct = () => {
     const [fileId, setFileId] = useState("");
     const [openPicker] = useDrivePicker();
 
@@ -21,19 +22,19 @@ const CreateProduct = () => {
         })
     }
 
-    const transform = (data) => ({
+    const transform = data => ({
         name: data.name,
         price: data.price,
         description: data.description,
         category: data.category.id,
         isFeatured: data.isFeatured,
-        image: fileId,
+        image: fileId || data.image,
         stock: data.stock,
     });
 
     return (
-        <Create transform={transform} redirect="list">
-            <SimpleForm>
+        <Edit mutationMode="pessimistic" transform={transform}>
+            <SimpleForm toolbar={<EditToolbar />}>
                 <TextInput source="name" />
                 <TextInput source="price" />
                 <TextInput source="description" />
@@ -48,8 +49,8 @@ const CreateProduct = () => {
                         type="button">Pick Image from Google Drive</button>
                 </div>
             </SimpleForm>
-        </Create>
+        </Edit>
     )
 };
 
-export default CreateProduct;
+export default EditProduct;

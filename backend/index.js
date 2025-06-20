@@ -2,6 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import productRouter from './routes/product.js';
+import userRouter from './routes/user.js';
+import categoryRouter from './routes/category.js';
 
 // Connect to database
 await mongoose.connect(process.env.MONGO_URI);
@@ -17,6 +19,8 @@ app.use(cors({
 
 // Use routes
 app.use(productRouter);
+app.use(userRouter);
+app.use(categoryRouter);
 
 // Listen for incoming request on specified port
 const port = process.env.PORT || 5000;

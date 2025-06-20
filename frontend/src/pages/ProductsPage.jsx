@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
-import { useLocation, useSearchParams } from 'react-router-dom';
+import { useState, useLayoutEffect } from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   FunnelIcon,
@@ -7,131 +7,85 @@ import {
   AdjustmentsHorizontalIcon
 } from '@heroicons/react/24/outline';
 import ProductCard from '../components/products/ProductCard';
-import { allProducts } from '../data/productData';
+import useSWR from "swr";
+import { apiFetcher } from '../api/client';
+
+const priceRanges = [
+  { value: 'any', label: 'Any Price' },
+  { value: 'under_10', label: 'Under ₵10' },
+  { value: 'from_10_to_25', label: 'From ₵10 to ₵25' },
+  { value: 'from_25_to_50', label: 'From ₵25 to ₵50' },
+  { value: 'over_50', label: 'Over ₵50' },
+];
+
+const sortOptions = [
+  { value: 'featured', label: 'Featured', sort: { isFeatured: 'desc' } },
+  { value: 'price_low', label: 'Price: Low to High', sort: { price: 'asc' } },
+  { value: 'price_high', label: 'Price: High to Low', sort: { price: 'desc' } },
+  { value: 'newest', label: 'Newest Arrivals', sort: { createdAt: 'desc' } },
+];
+
+const priceRangeFilter = (range) => {
+  switch (range) {
+    case 'over_50':
+      return { price: { $gt: 50 } };
+    case 'from_25_to_50':
+      return { price: { $lte: 50, $gte: 25 } };
+    case 'from_10_to_25':
+      return { price: { $lte: 25, $gte: 10 } };
+    case 'under_10':
+      return { price: { $lt: 10 } };
+    default:
+      return {};
+  }
+}
+
+const sortFilter = (sort) => {
+  switch (sort) {
+    case 'featured':
+      return { isFeatured: 'desc' };
+    case 'price_low':
+      return { price: 'asc' };
+    case 'price_high':
+      return { price: 'desc' };
+    case 'newest':
+      return { createdAt: 'desc' };
+    default:
+      return { isFeatured: 'desc' };
+  }
+}
 
 const ProductsPage = () => {
-  const location = useLocation();
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [filters, setFilters] = useState({
-    category: '',
-    priceRange: '',
-    sort: 'featured',
-  });
   const [searchQuery, setSearchQuery] = useState('');
+  const { data: products, isLoading } = useSWR(
+    `/products?_start=0&_end=0&filter=${JSON.stringify({ ...((searchParams.get('category') && searchParams.get('category') != 'all') ? { category: searchParams.get('category') } : {}), ...priceRangeFilter(searchParams.get('price')), ...{ $or: [{ name: { $regex: searchQuery, $options: 'i' } }, { description: { $regex: searchQuery, $options: 'i' } }] } })}&sort=${JSON.stringify(sortFilter(searchParams.get('sort')))}`,
+    apiFetcher
+  );
+  const { data: categories } = useSWR('/categories', apiFetcher);
 
   useLayoutEffect(() => {
     window.scrollTo(0, 0);
-  }, [searchParams.get('category')]);
-
-  useEffect(() => {
-    // Load products
-    setProducts(allProducts);
-
-    // Check if there's a category filter in the URL
-    const params = new URLSearchParams(location.search);
-    const categoryParam = params.get('category');
-
-    if (categoryParam) {
-      setFilters(prev => ({ ...prev, category: categoryParam }));
-    }
-  }, [location]);
-
-  useEffect(() => {
-    applyFilters();
-  }, [filters, products, searchQuery]);
-
-  const applyFilters = () => {
-    let result = [...products];
-
-    // Apply category filter
-    if (filters.category) {
-      result = result.filter(product =>
-        product.category.toLowerCase() === filters.category.toLowerCase()
-      );
-    }
-
-    // Apply price range filter
-    if (filters.priceRange) {
-      const [min, max] = filters.priceRange.split('-').map(Number);
-      result = result.filter(product =>
-        product.price >= min && (max ? product.price <= max : true)
-      );
-    }
-
-    // Apply search query
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase();
-      result = result.filter(product =>
-        product.name.toLowerCase().includes(query) ||
-        product.description.toLowerCase().includes(query) ||
-        product.category.toLowerCase().includes(query)
-      );
-    }
-
-    // Apply sorting
-    switch (filters.sort) {
-      case 'price-low':
-        result.sort((a, b) => a.price - b.price);
-        break;
-      case 'price-high':
-        result.sort((a, b) => b.price - a.price);
-        break;
-      case 'newest':
-        result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        break;
-      case 'rating':
-        result.sort((a, b) => b.rating - a.rating);
-        break;
-      default: // featured
-        // No sorting needed, products are already in featured order
-        break;
-    }
-
-    setFilteredProducts(result);
-  };
-
-  const handleFilterChange = (name, value) => {
-    setFilters(prev => ({ ...prev, [name]: value }));
-  };
+  }, [searchParams.get('category'), searchParams.get('price')]);
 
   const resetFilters = () => {
-    setFilters({
-      category: '',
-      priceRange: '',
-      sort: 'featured',
-    });
+    navigate('/products');
     setSearchQuery('');
   };
 
-  const categories = [
-    { value: '', label: 'All Categories' },
-    { value: 'juices', label: 'Fruit Juices' },
-    { value: 'oils', label: 'Oils' },
-    { value: 'grains', label: 'Grains & Flour' },
-    { value: 'wines', label: 'Wines' },
-    { value: 'snacks', label: 'Snacks' },
-    { value: 'fish', label: 'Dried Fish' },
-    { value: 'cereals', label: 'Cereals' },
-  ];
-
-  const priceRanges = [
-    { value: '', label: 'Any Price' },
-    { value: '0-10', label: 'Under ₵10' },
-    { value: '10-25', label: 'From ₵10 to ₵25' },
-    { value: '25-50', label: 'From ₵25 to ₵50' },
-    { value: '50-', label: 'Over ₵50' },
-  ];
-
-  const sortOptions = [
-    { value: 'featured', label: 'Featured' },
-    { value: 'price-low', label: 'Price: Low to High' },
-    { value: 'price-high', label: 'Price: High to Low' },
-    { value: 'newest', label: 'Newest Arrivals' },
-    { value: 'rating', label: 'Highest Rated' },
-  ];
+  if (isLoading) {
+    return (
+      <div className="pt-24 pb-16 min-h-screen flex items-center justify-center">
+        <div className="animate-pulse flex flex-col items-center">
+          <div className="rounded-full bg-slate-200 dark:bg-slate-700 h-16 w-16 mb-4"></div>
+          <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-32 mb-6"></div>
+          <div className="text-center text-slate-500 dark:text-slate-400">Loading products...</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="pt-24 pb-16">
@@ -165,21 +119,25 @@ const ProductsPage = () => {
               <div>
                 <h3 className="font-medium mb-3">Categories</h3>
                 <div className="space-y-2">
-                  {categories.map((category) => (
-                    <div key={category.value} className="flex items-center">
+                  {categories?.map((category) => (
+                    <div key={category.id} className="flex items-center">
                       <input
                         type="radio"
-                        id={`category-${category.value || 'all'}`}
+                        id={`category-${category.id}`}
                         name="category"
-                        checked={filters.category === category.value}
-                        onChange={() => handleFilterChange('category', category.value)}
+                        checked={searchParams.get('category') === category.id}
+                        onChange={() => {
+                          const price = searchParams.get('price');
+                          const sort = searchParams.get('sort');
+                          navigate(`?category=${category.id}&price=${price || 'any'}&sort=${sort || 'featured'}`)
+                        }}
                         className="w-4 h-4 text-primary-500 focus:ring-primary-500 border-slate-300 dark:border-slate-600"
                       />
                       <label
-                        htmlFor={`category-${category.value || 'all'}`}
+                        htmlFor={`category-${category.id}`}
                         className="ml-2 text-sm text-slate-600 dark:text-slate-300"
                       >
-                        {category.label}
+                        {category.name}
                       </label>
                     </div>
                   ))}
@@ -194,14 +152,18 @@ const ProductsPage = () => {
                     <div key={range.value} className="flex items-center">
                       <input
                         type="radio"
-                        id={`price-${range.value || 'all'}`}
+                        id={`price-${range.value}`}
                         name="priceRange"
-                        checked={filters.priceRange === range.value}
-                        onChange={() => handleFilterChange('priceRange', range.value)}
+                        checked={searchParams.get('price') === range.value}
+                        onChange={() => {
+                          const category = searchParams.get('category');
+                          const sort = searchParams.get('sort');
+                          navigate(`?price=${range.value}&category=${category || 'all'}&sort=${sort || 'featured'}`)
+                        }}
                         className="w-4 h-4 text-primary-500 focus:ring-primary-500 border-slate-300 dark:border-slate-600"
                       />
                       <label
-                        htmlFor={`price-${range.value || 'all'}`}
+                        htmlFor={`price-${range.value}`}
                         className="ml-2 text-sm text-slate-600 dark:text-slate-300"
                       >
                         {range.label}
@@ -238,8 +200,12 @@ const ProductsPage = () => {
                   <div>
                     <h3 className="font-medium mb-3">Sort By</h3>
                     <select
-                      value={filters.sort}
-                      onChange={(e) => handleFilterChange('sort', e.target.value)}
+                      value={searchParams.get('sort') || 'featured'}
+                      onChange={(e) => {
+                        const price = searchParams.get('price');
+                        const category = searchParams.get('category');
+                        navigate(`?sort=${e.target.value}&price=${price || 'any'}&category=${category || 'all'}`)
+                      }}
                       className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                     >
                       {sortOptions.map((option) => (
@@ -254,21 +220,25 @@ const ProductsPage = () => {
                   <div>
                     <h3 className="font-medium mb-3">Categories</h3>
                     <div className="space-y-2">
-                      {categories.map((category) => (
-                        <div key={category.value} className="flex items-center">
+                      {categories?.map((category) => (
+                        <div key={category.id} className="flex items-center">
                           <input
                             type="radio"
-                            id={`mobile-category-${category.value || 'all'}`}
+                            id={`mobile-category-${category.id}`}
                             name="mobile-category"
-                            checked={filters.category === category.value}
-                            onChange={() => handleFilterChange('category', category.value)}
+                            checked={searchParams.get('category') === category.id}
+                            onChange={() => {
+                              const price = searchParams.get('price');
+                              const sort = searchParams.get('sort');
+                              navigate(`?category=${category.id}&price=${price || 'any'}&sort=${sort || 'featured'}`);
+                            }}
                             className="w-4 h-4 text-primary-500 focus:ring-primary-500 border-slate-300 dark:border-slate-600"
                           />
                           <label
-                            htmlFor={`mobile-category-${category.value || 'all'}`}
+                            htmlFor={`mobile-category-${category.id}`}
                             className="ml-2 text-sm text-slate-600 dark:text-slate-300"
                           >
-                            {category.label}
+                            {category.name}
                           </label>
                         </div>
                       ))}
@@ -283,14 +253,18 @@ const ProductsPage = () => {
                         <div key={range.value} className="flex items-center">
                           <input
                             type="radio"
-                            id={`mobile-price-${range.value || 'all'}`}
+                            id={`mobile-price-${range.value}`}
                             name="mobile-priceRange"
-                            checked={filters.priceRange === range.value}
-                            onChange={() => handleFilterChange('priceRange', range.value)}
+                            checked={searchParams.get('price') === range.value}
+                            onChange={() => {
+                              const category = searchParams.get('category');
+                              const sort = searchParams.get('sort');
+                              navigate(`?price=${range.value}&category=${category || 'all'}&sort=${sort || 'featured'}`)
+                            }}
                             className="w-4 h-4 text-primary-500 focus:ring-primary-500 border-slate-300 dark:border-slate-600"
                           />
                           <label
-                            htmlFor={`mobile-price-${range.value || 'all'}`}
+                            htmlFor={`mobile-price-${range.value}`}
                             className="ml-2 text-sm text-slate-600 dark:text-slate-300"
                           >
                             {range.label}
@@ -328,8 +302,11 @@ const ProductsPage = () => {
                   <div className="relative">
                     <input
                       type="text"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
+                      onKeyPress={(e) => {
+                        if (e.key === "Enter") {
+                          setSearchQuery(e.target.value);
+                        }
+                      }}
                       placeholder="Search products..."
                       className="w-full px-4 py-2 pl-10 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                     />
@@ -349,8 +326,12 @@ const ProductsPage = () => {
                     <label htmlFor="sort-desktop" className="sr-only">Sort by</label>
                     <select
                       id="sort-desktop"
-                      value={filters.sort}
-                      onChange={(e) => handleFilterChange('sort', e.target.value)}
+                      value={searchParams.get('sort') || 'featured'}
+                      onChange={(e) => {
+                        const price = searchParams.get('price');
+                        const category = searchParams.get('category');
+                        navigate(`?sort=${e.target.value}&price=${price || 'any'}&category=${category || 'all'}`)
+                      }}
                       className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                     >
                       {sortOptions.map((option) => (
@@ -362,34 +343,28 @@ const ProductsPage = () => {
                   </div>
 
                   <span className="text-sm text-slate-500 dark:text-slate-400 whitespace-nowrap">
-                    {filteredProducts.length} {filteredProducts.length === 1 ? 'product' : 'products'}
+                    {products?.length} {products?.length === 1 ? 'product' : 'products'}
                   </span>
                 </div>
               </div>
             </div>
 
             {/* Active Filters */}
-            {(filters.category || filters.priceRange || searchQuery) && (
+            {(searchParams.get('category') || searchParams.get('price') || searchQuery) && (
               <div className="flex flex-wrap gap-2 mb-6">
-                {filters.category && (
+                {searchParams.get('category') && (
                   <div className="inline-flex items-center bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 px-3 py-1 rounded-full text-sm">
-                    <span>Category: {categories.find(c => c.value === filters.category)?.label}</span>
-                    <button
-                      onClick={() => handleFilterChange('category', '')}
-                      className="ml-2"
-                    >
+                    <span>Category: {categories.find(c => c.id === searchParams.get('category'))?.name || 'All'}</span>
+                    <button className="ml-2">
                       <XMarkIcon className="w-4 h-4" />
                     </button>
                   </div>
                 )}
 
-                {filters.priceRange && (
+                {searchParams.get('price') && (
                   <div className="inline-flex items-center bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 px-3 py-1 rounded-full text-sm">
-                    <span>Price: {priceRanges.find(p => p.value === filters.priceRange)?.label}</span>
-                    <button
-                      onClick={() => handleFilterChange('priceRange', '')}
-                      className="ml-2"
-                    >
+                    <span>Price: {priceRanges.find(p => p.value === searchParams.get('price'))?.label}</span>
+                    <button className="ml-2">
                       <XMarkIcon className="w-4 h-4" />
                     </button>
                   </div>
@@ -417,9 +392,9 @@ const ProductsPage = () => {
             )}
 
             {/* Products Grid */}
-            {filteredProducts.length > 0 ? (
+            {products?.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {filteredProducts.map((product) => (
+                {products?.map((product) => (
                   <ProductCard key={product.id} product={product} />
                 ))}
               </div>

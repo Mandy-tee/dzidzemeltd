@@ -22,15 +22,18 @@ export const addProduct = async (req, res, next) => {
 
 export const getProducts = async (req, res, next) => {
     try {
-        const { filter = "{}", sort = "{}", limit = 10, skip = 0 } = req.query;
+        const { filter = "{}", sort = "{}", _start = 0, _end = 10 } = req.query;
         // Get total count of documents (BEFORE applying limit and skip)
         const totalCount = await ProductModel.countDocuments({});
         // Fetch products from database
         const products = await ProductModel
             .find(JSON.parse(filter))
             .sort(JSON.parse(sort))
-            .limit(limit)
-            .skip(skip);
+            .limit(_end - _start)
+            .skip(_start)
+            .populate([
+                { path: 'category', select: { name: true } }
+            ]);
         // Set X-Total-Count header
         res.set('X-Total-Count', totalCount);
         // Return response
@@ -56,7 +59,11 @@ export const getProduct = async (req, res, next) => {
     try {
         const { id } = req.params;
         // Get product by id from database
-        const product = await ProductModel.findById(id);
+        const product = await ProductModel
+            .findById(id)
+            .populate([
+                { path: 'category', select: { name: true } }
+            ]);
         if (!product) {
             return res.status(404).json('Product not found!');
         }
@@ -79,9 +86,9 @@ export const updateProduct = async (req, res, next) => {
         }
         // Update product in database
         const { id } = req.params;
-        await ProductModel.updateOne({ _id: id }, value);
+        const product = await ProductModel.findOneAndUpdate({ _id: id }, value, { new: true });
         // Respond to request
-        res.status(200).json("Product updated!");
+        res.status(200).json(product);
     } catch (error) {
         next(error);
     }

@@ -269,7 +269,7 @@ export const allProducts = [
     price: 13.99,
     rating: 4,
     image: garimixImage,
-    category: 'grains',
+    category: 'snacks',
     description: 'Traditional cassava flakes infused with natural ginger flavor. Ready to eat or can be soaked in water for a quick meal or snack.',
     variant: '1kg',
     stock: 25,

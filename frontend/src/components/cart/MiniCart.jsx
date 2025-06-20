@@ -15,7 +15,7 @@ const MiniCart = () => {
       transition={{ duration: 0.2 }}
     >
       <div className="absolute inset-0 bg-black bg-opacity-50" onClick={toggleCart} />
-      
+
       <motion.div
         className="absolute top-0 right-0 h-full w-full sm:w-96 bg-white dark:bg-slate-900 shadow-xl overflow-y-auto"
         initial={{ x: '100%' }}
@@ -29,7 +29,7 @@ const MiniCart = () => {
             <XMarkIcon className="w-6 h-6" />
           </button>
         </div>
-        
+
         {cart.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
             <ShoppingBagIcon className="w-16 h-16 text-slate-300 dark:text-slate-600 mb-4" />
@@ -52,17 +52,17 @@ const MiniCart = () => {
                 <div key={item.id} className="py-4 px-4">
                   <div className="flex gap-4">
                     <div className="w-20 h-20 rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-800 flex-shrink-0">
-                      <img 
-                        src={item.image} 
-                        alt={item.name} 
+                      <img
+                        src={`https://lh3.googleusercontent.com/d/${item.image}`}
+                        alt={item.name}
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    
+
                     <div className="flex-grow">
                       <div className="flex justify-between">
                         <h4 className="font-medium">{item.name}</h4>
-                        <button 
+                        <button
                           onClick={() => removeFromCart(item.id)}
                           className="text-slate-400 hover:text-accent-500"
                           aria-label="Remove item"
@@ -70,11 +70,11 @@ const MiniCart = () => {
                           <TrashIcon className="w-5 h-5" />
                         </button>
                       </div>
-                      
+
                       <p className="text-sm text-slate-500 dark:text-slate-400">
                         {item.variant || 'Standard'}
                       </p>
-                      
+
                       <div className="mt-2 flex justify-between items-center">
                         <div className="flex items-center border border-slate-200 dark:border-slate-700 rounded">
                           <button
@@ -93,7 +93,7 @@ const MiniCart = () => {
                             +
                           </button>
                         </div>
-                        
+
                         <span className="font-medium">₵{(item.price * item.quantity).toFixed(2)}</span>
                       </div>
                     </div>
@@ -101,18 +101,18 @@ const MiniCart = () => {
                 </div>
               ))}
             </div>
-            
+
             <div className="p-4 border-t border-slate-200 dark:border-slate-700">
               <div className="flex justify-between mb-4">
                 <span>Subtotal:</span>
                 <span className="font-semibold">₵{getCartTotal().toFixed(2)}</span>
               </div>
-              
+
               <div className="flex justify-between mb-6">
                 <span>Shipping:</span>
                 <span>Calculated at checkout</span>
               </div>
-              
+
               <Link
                 to="/checkout"
                 className="btn btn-primary hover:bg-secondary-500 w-full text-center"
@@ -120,7 +120,7 @@ const MiniCart = () => {
               >
                 Checkout
               </Link>
-              
+
               <button
                 onClick={toggleCart}
                 className="btn btn-outline mt-5 w-full text-center"

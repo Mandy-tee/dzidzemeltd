@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
 import { formatCurrency } from '../utils/formatCurrency';
@@ -48,7 +47,7 @@ const CartPage = () => {
               className="flex flex-col md:flex-row items-center gap-4 p-4 mb-4 bg-white dark:bg-gray-800 rounded-lg shadow"
             >
               <img
-                src={item.image}
+                src={`https://lh3.googleusercontent.com/d/${item.image}`}
                 alt={item.name}
                 className="w-24 h-24 object-cover rounded"
               />
