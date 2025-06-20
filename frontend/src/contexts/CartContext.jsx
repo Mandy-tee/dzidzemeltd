@@ -10,7 +10,7 @@ export const CartProvider = ({ children }) => {
     const savedCart = localStorage.getItem('cart');
     return savedCart ? JSON.parse(savedCart) : [];
   });
-  
+
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   useEffect(() => {
@@ -20,7 +20,7 @@ export const CartProvider = ({ children }) => {
   const addToCart = (product, quantity = 1) => {
     setCart(prevCart => {
       const existingItemIndex = prevCart.findIndex(item => item.id === product.id);
-      
+
       if (existingItemIndex !== -1) {
         const updatedCart = [...prevCart];
         updatedCart[existingItemIndex].quantity += quantity;
@@ -42,8 +42,8 @@ export const CartProvider = ({ children }) => {
   };
 
   const updateQuantity = (productId, quantity) => {
-    setCart(prevCart => 
-      prevCart.map(item => 
+    setCart(prevCart =>
+      prevCart.map(item =>
         item.id === productId ? { ...item, quantity } : item
       )
     );

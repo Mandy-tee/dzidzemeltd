@@ -1,12 +1,14 @@
-import { Admin, Resource, ListGuesser } from "react-admin";
+import { Admin, EditGuesser, ListGuesser, Resource, ShowGuesser } from "react-admin";
 import jsonServerProvider from "ra-data-json-server";
 import CategoryIcon from '@mui/icons-material/Category';
 import InventoryIcon from '@mui/icons-material/Inventory';
+import LocalMallIcon from '@mui/icons-material/LocalMall';
 import CreateProduct from "./products/CreateProduct";
 import EditProduct from "./products/EditProduct";
 import CreateCategory from "./categories/CreateCategory";
 import EditCategory from "./categories/EditCategory";
 import ProductList from "./products/ProductList";
+import CategoryList from "./categories/CategoryList";
 
 const dataProvider = jsonServerProvider(import.meta.env.VITE_BACKEND_URL);
 
@@ -15,7 +17,7 @@ const MyAdmin = () => (
     <Resource
       icon={CategoryIcon}
       name="categories"
-      list={ListGuesser}
+      list={CategoryList}
       create={CreateCategory}
       edit={EditCategory}
     />
@@ -25,6 +27,11 @@ const MyAdmin = () => (
       list={ProductList}
       create={CreateProduct}
       edit={EditProduct}
+    />
+    <Resource
+      icon={LocalMallIcon}
+      name="orders"
+      list={ListGuesser}
     />
   </Admin>
 );

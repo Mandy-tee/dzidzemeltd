@@ -47,7 +47,7 @@ const ProductCard = ({ product }) => {
         </div>
       </Link>
 
-      <div className="p-4">
+      <div className="p-4 flex flex-col justify-between h-[200px]">
         <div className="flex items-center justify-between mb-1">
           <span className="text-sm text-slate-500 dark:text-slate-400">
             {product.category.name}
@@ -55,7 +55,7 @@ const ProductCard = ({ product }) => {
         </div>
 
         <Link to={`/products/${product.id}`}>
-          <h3 className="font-medium mb-1 hover:text-primary-500 transition-colors duration-200">{product.name}</h3>
+          <h3 className="font-medium text-2xl mb-1 hover:text-primary-500 transition-colors duration-200">{product.name}</h3>
         </Link>
 
         <div className="flex items-center justify-between">

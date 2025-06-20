@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import useDrivePicker from "react-google-drive-picker";
-import { SimpleForm, TextInput, Edit, ReferenceInput, BooleanInput, NumberInput } from 'react-admin';
+import { SimpleForm, TextInput, Edit, ReferenceInput, BooleanInput, NumberInput, WithRecord } from 'react-admin';
 import EditToolbar from '../common/EditToolbar';
 
 const EditProduct = () => {
@@ -41,13 +41,18 @@ const EditProduct = () => {
                 <ReferenceInput source="category.id" reference="categories" />
                 <NumberInput source="stock" />
                 <BooleanInput label="Featured?" source="isFeatured" />
-                <div className="flex flex-row justify-between w-full">
-                    <input className="p-2 w-2/4" type="text" value={fileId} readOnly />
-                    <button
-                        onClick={handleOpenPicker}
-                        className="border-2 p-2 w-1/4"
-                        type="button">Pick Image from Google Drive</button>
-                </div>
+                <WithRecord
+                    label="image"
+                    render={record => (
+                        <div className="flex flex-row justify-between w-full">
+                            <input className="p-2 w-2/4" type="text" value={fileId || record.image} readOnly />
+                            <button
+                                onClick={handleOpenPicker}
+                                className="border-2 p-2 w-1/4"
+                                type="button">Pick Image from Google Drive</button>
+                        </div>
+                    )}
+                />
             </SimpleForm>
         </Edit>
     )

@@ -1,25 +1,13 @@
-import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
 const RegisterPage = () => {
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
-  });
+  const { register, loading } = useAuth();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle registration logic here
-  };
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    const data = new FormData(e.target);
+    await register(data.get('name'), data.get('email'), data.get('password'));
   };
 
   return (
@@ -40,35 +28,16 @@ const RegisterPage = () => {
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
-              <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
-                First Name
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                Full Name
               </label>
               <div className="mt-1">
                 <input
-                  id="firstName"
-                  name="firstName"
+                  id="name"
+                  name="name"
                   type="text"
                   required
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-700 dark:text-gray-700 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-                  value={formData.firstName}
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
-                Last Name
-              </label>
-              <div className="mt-1">
-                <input
-                  id="lastName"
-                  name="lastName"
-                  type="text"
-                  required
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-700 dark:text-gray-700 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-                  value={formData.lastName}
-                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -85,8 +54,6 @@ const RegisterPage = () => {
                   autoComplete="email"
                   required
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-700 dark:text-gray-700 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-                  value={formData.email}
-                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -103,8 +70,6 @@ const RegisterPage = () => {
                   autoComplete="new-password"
                   required
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-700 dark:text-gray-700 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-                  value={formData.password}
-                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -121,8 +86,6 @@ const RegisterPage = () => {
                   autoComplete="new-password"
                   required
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-700 dark:text-gray-700 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -130,9 +93,10 @@ const RegisterPage = () => {
             <div>
               <button
                 type="submit"
+                disabled={loading}
                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-secondary-500 hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
               >
-                Create Account
+                {loading ? 'Loading...' : 'Create Account'}
               </button>
             </div>
           </form>

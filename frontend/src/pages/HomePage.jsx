@@ -9,8 +9,23 @@ import Hero from '../components/home/Hero';
 import { productCategories, testimonials, featuredPosts } from '../data/homeData';
 import useSWR from "swr";
 import { apiFetcher } from '../api/client';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
+
+const settings = {
+  dots: true,
+  infinite: true,
+  arrows: true,
+  speed: 500,
+  slidesToShow: 4,
+  slidesToScroll: 1,
+  autoplay: true,
+  autoplaySpeed: 2000,
+}
 
 const HomePage = () => {
+  const { data: categories } = useSWR('/categories', apiFetcher);
   const { data: featuredProducts } = useSWR(`/products?_start=0&_end=4&sort={"isFeatured":"desc"}`, apiFetcher);
 
   return (
@@ -27,16 +42,16 @@ const HomePage = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-            {productCategories.map((category) => (
+          <Slider {...settings}>
+            {categories?.map((category) => (
               <CategoryCard key={category.id} category={category} />
             ))}
-          </div>
+          </Slider>
         </div>
       </section>
 
       {/* Featured Products Section */}
-      <section className="py-16 bg-slate-50 dark:bg-slate-800">
+      <section className="py-16 bg-slate-50 dark:bg-slate-900">
         <div className="container-custom">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
             <div>

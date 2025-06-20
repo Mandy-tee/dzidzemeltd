@@ -228,7 +228,7 @@ const ProductDetailPage = () => {
               <div className="flex flex-col sm:flex-row gap-4 mb-6">
                 <button
                   onClick={handleAddToCart}
-                  className="btn btn-primary flex-1 flex items-center justify-center"
+                  className="btn btn-primary hover:bg-secondary-500 flex-1 flex items-center justify-center"
                   disabled={product.stock <= 0}
                 >
                   <ShoppingCartIcon className="w-5 h-5 mr-2" />

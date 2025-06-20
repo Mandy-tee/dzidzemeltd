@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
@@ -6,13 +5,13 @@ const CategoryCard = ({ category }) => {
   return (
     <motion.div
       whileHover={{ y: -5 }}
-      className="relative overflow-hidden rounded-xl shadow-soft group"
+      className="relative overflow-hidden rounded-xl shadow-soft group mr-5"
     >
-      <Link to={`/products?category=${category.slug}`}>
+      <Link to={`/products?category=${category.id}`}>
         <div className="aspect-square">
-          <img 
-            src={category.image} 
-            alt={category.name} 
+          <img
+            src={`https://lh3.googleusercontent.com/d/${category.image}`}
+            alt={category.name}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
           />
         </div>

@@ -1,48 +1,45 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
+import { apiClient } from "../api/client";
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 const AuthContext = createContext();
 
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState(() => {
-    const savedUser = localStorage.getItem('user');
+    const savedUser = localStorage.getItem('AUTH_USER');
     return savedUser ? JSON.parse(savedUser) : null;
   });
-  
+
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (currentUser) {
-      localStorage.setItem('user', JSON.stringify(currentUser));
+      localStorage.setItem('AUTH_USER', JSON.stringify(currentUser));
     } else {
-      localStorage.removeItem('user');
+      localStorage.removeItem('AUTH_USER');
     }
   }, [currentUser]);
 
   const login = async (email, password) => {
     setLoading(true);
-    
     try {
-      // This would be an API call in a real application
-      // For now, let's simulate a successful login for demo purposes
-      if (email === 'demo@example.com' && password === 'password') {
-        const user = {
-          id: '1',
-          name: 'Demo User',
-          email: 'demo@example.com',
-        };
-        
-        setCurrentUser(user);
-        toast.success('Logged in successfully');
-        return user;
-      } else {
-        throw new Error('Invalid credentials');
-      }
+      const loginReponse = await apiClient.post('/users/login', { email, password });
+      localStorage.setItem('AUTH_TOKEN', loginReponse.data.accessToken);
+      const profileResponse = await apiClient.get('/users/me', {
+        headers: {
+          Authorization: `Bearer ${loginReponse.data.accessToken}`
+        }
+      });
+      setCurrentUser(profileResponse.data);
+      toast.success('Logged in successfully');
+      navigate(searchParams.get('returnUrl') || '/account');
     } catch (error) {
       toast.error(error.message);
-      throw error;
     } finally {
       setLoading(false);
     }
@@ -50,22 +47,12 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (name, email, password) => {
     setLoading(true);
-    
     try {
-      // This would be an API call in a real application
-      // For now, let's simulate a successful registration
-      const user = {
-        id: Date.now().toString(),
-        name,
-        email,
-      };
-      
-      setCurrentUser(user);
+      await apiClient.post('/users/register', { name, email, password });
       toast.success('Account created successfully');
-      return user;
+      navigate('/login');
     } catch (error) {
       toast.error(error.message);
-      throw error;
     } finally {
       setLoading(false);
     }
@@ -73,7 +60,9 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     setCurrentUser(null);
+    localStorage.removeItem('AUTH_TOKEN');
     toast.success('Logged out successfully');
+    navigate('/');
   };
 
   const value = {
