@@ -13,7 +13,7 @@ import { apiClient } from '../api/client';
 
 const CheckoutPage = () => {
   const { cart, getCartTotal, clearCart } = useCart();
-  const { currentUser } = useAuth();
+  const { currentUser, token } = useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
@@ -48,9 +48,11 @@ const CheckoutPage = () => {
         })),
       }, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('AUTH_TOKEN')}`
+          Authorization: `Bearer ${token}`
         }
       });
+      // Clear the cart
+      clearCart();
       // Load Hubtel Invoice URL for payment
       window.location.replace(response.data.checkoutUrl);
     } catch (error) {

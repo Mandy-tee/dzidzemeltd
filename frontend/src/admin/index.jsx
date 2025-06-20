@@ -10,11 +10,12 @@ import EditCategory from "./categories/EditCategory";
 import ProductList from "./products/ProductList";
 import CategoryList from "./categories/CategoryList";
 import OrderList from "./orders/OrderList";
+import { authProvider } from "./auth";
 
 const dataProvider = jsonServerProvider(import.meta.env.VITE_BACKEND_URL);
 
 const MyAdmin = () => (
-  <Admin basename="/admin" dataProvider={dataProvider}>
+  <Admin basename="/admin" dataProvider={dataProvider} authProvider={authProvider}>
     <Resource
       icon={CategoryIcon}
       name="categories"
