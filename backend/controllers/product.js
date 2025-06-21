@@ -22,15 +22,15 @@ export const addProduct = async (req, res, next) => {
 
 export const getProducts = async (req, res, next) => {
     try {
-        const { filter = "{}", sort = "{}", _start = 0, _end = 10 } = req.query;
+        const { filter = "{}", sort = "{}", limit = 10, skip = 0 } = req.query;
         // Get total count of documents (BEFORE applying limit and skip)
         const totalCount = await ProductModel.countDocuments({});
         // Fetch products from database
         const products = await ProductModel
             .find(JSON.parse(filter))
             .sort(JSON.parse(sort))
-            .limit(_end - _start)
-            .skip(_start)
+            .limit(limit)
+            .skip(skip)
             .populate([
                 { path: 'category', select: { name: true } }
             ]);

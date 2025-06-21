@@ -19,10 +19,10 @@ const priceRanges = [
 ];
 
 const sortOptions = [
-  { value: 'featured', label: 'Featured', sort: { isFeatured: 'desc' } },
-  { value: 'price_low', label: 'Price: Low to High', sort: { price: 'asc' } },
-  { value: 'price_high', label: 'Price: High to Low', sort: { price: 'desc' } },
-  { value: 'newest', label: 'Newest Arrivals', sort: { createdAt: 'desc' } },
+  { value: 'featured', label: 'Featured' },
+  { value: 'price_low', label: 'Price: Low to High' },
+  { value: 'price_high', label: 'Price: High to Low' },
+  { value: 'newest', label: 'Newest Arrivals' },
 ];
 
 const priceRangeFilter = (range) => {
@@ -59,9 +59,10 @@ const ProductsPage = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [sort, setSort] = useState('featured');
   const [searchQuery, setSearchQuery] = useState('');
   const { data: products, isLoading } = useSWR(
-    `/products?_start=0&_end=0&filter=${JSON.stringify({ ...((searchParams.get('category') && searchParams.get('category') != 'all') ? { category: searchParams.get('category') } : {}), ...priceRangeFilter(searchParams.get('price')), ...{ $or: [{ name: { $regex: searchQuery, $options: 'i' } }, { description: { $regex: searchQuery, $options: 'i' } }] } })}&sort=${JSON.stringify(sortFilter(searchParams.get('sort')))}`,
+    `/products?limit=0&filter=${JSON.stringify({ ...((searchParams.get('category') && searchParams.get('category') != 'all') ? { category: searchParams.get('category') } : {}), ...priceRangeFilter(searchParams.get('price')), ...{ $or: [{ name: { $regex: searchQuery, $options: 'i' } }, { description: { $regex: searchQuery, $options: 'i' } }] } })}&sort=${JSON.stringify(sortFilter(sort))}`,
     apiFetcher
   );
   const { data: categories } = useSWR('/categories', apiFetcher);
@@ -72,6 +73,7 @@ const ProductsPage = () => {
 
   const resetFilters = () => {
     navigate('/products');
+    setSort('featured');
     setSearchQuery('');
   };
 
@@ -128,8 +130,7 @@ const ProductsPage = () => {
                         checked={searchParams.get('category') === category.id}
                         onChange={() => {
                           const price = searchParams.get('price');
-                          const sort = searchParams.get('sort');
-                          navigate(`?category=${category.id}&price=${price || 'any'}&sort=${sort || 'featured'}`)
+                          navigate(`?category=${category.id}&price=${price || 'any'}`)
                         }}
                         className="w-4 h-4 text-primary-500 focus:ring-primary-500 border-slate-300 dark:border-slate-600"
                       />
@@ -157,8 +158,7 @@ const ProductsPage = () => {
                         checked={searchParams.get('price') === range.value}
                         onChange={() => {
                           const category = searchParams.get('category');
-                          const sort = searchParams.get('sort');
-                          navigate(`?price=${range.value}&category=${category || 'all'}&sort=${sort || 'featured'}`)
+                          navigate(`?price=${range.value}&category=${category || 'all'}`)
                         }}
                         className="w-4 h-4 text-primary-500 focus:ring-primary-500 border-slate-300 dark:border-slate-600"
                       />
@@ -200,12 +200,8 @@ const ProductsPage = () => {
                   <div>
                     <h3 className="font-medium mb-3">Sort By</h3>
                     <select
-                      value={searchParams.get('sort') || 'featured'}
-                      onChange={(e) => {
-                        const price = searchParams.get('price');
-                        const category = searchParams.get('category');
-                        navigate(`?sort=${e.target.value}&price=${price || 'any'}&category=${category || 'all'}`)
-                      }}
+                      value={sort}
+                      onChange={(e) => setSort(e.target.value)}
                       className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                     >
                       {sortOptions.map((option) => (
@@ -229,8 +225,7 @@ const ProductsPage = () => {
                             checked={searchParams.get('category') === category.id}
                             onChange={() => {
                               const price = searchParams.get('price');
-                              const sort = searchParams.get('sort');
-                              navigate(`?category=${category.id}&price=${price || 'any'}&sort=${sort || 'featured'}`);
+                              navigate(`?category=${category.id}&price=${price || 'any'}`);
                             }}
                             className="w-4 h-4 text-primary-500 focus:ring-primary-500 border-slate-300 dark:border-slate-600"
                           />
@@ -258,8 +253,7 @@ const ProductsPage = () => {
                             checked={searchParams.get('price') === range.value}
                             onChange={() => {
                               const category = searchParams.get('category');
-                              const sort = searchParams.get('sort');
-                              navigate(`?price=${range.value}&category=${category || 'all'}&sort=${sort || 'featured'}`)
+                              navigate(`?price=${range.value}&category=${category || 'all'}`)
                             }}
                             className="w-4 h-4 text-primary-500 focus:ring-primary-500 border-slate-300 dark:border-slate-600"
                           />
@@ -326,12 +320,8 @@ const ProductsPage = () => {
                     <label htmlFor="sort-desktop" className="sr-only">Sort by</label>
                     <select
                       id="sort-desktop"
-                      value={searchParams.get('sort') || 'featured'}
-                      onChange={(e) => {
-                        const price = searchParams.get('price');
-                        const category = searchParams.get('category');
-                        navigate(`?sort=${e.target.value}&price=${price || 'any'}&category=${category || 'all'}`)
-                      }}
+                      value={sort}
+                      onChange={(e) => setSort(e.target.value)}
                       className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                     >
                       {sortOptions.map((option) => (

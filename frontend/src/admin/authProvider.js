@@ -11,9 +11,9 @@ export const authProvider = {
     },
     async checkError(error) {
         const status = error.status;
-        if (status === 401 || status === 403) {
+        if (status === 401) {
             localStorage.removeItem('RA_AUTH_TOKEN');
-            throw new Error('Session expired');
+            throw new Error('Session expired!');
         }
         // other error codes (404, 500, etc): no need to log out
     },

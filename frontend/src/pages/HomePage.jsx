@@ -26,7 +26,7 @@ const settings = {
 
 const HomePage = () => {
   const { data: categories } = useSWR('/categories', apiFetcher);
-  const { data: featuredProducts } = useSWR(`/products?_start=0&_end=4&sort={"isFeatured":"desc"}`, apiFetcher);
+  const { data: featuredProducts } = useSWR(`/products?limit=4&sort={"isFeatured":"desc"}`, apiFetcher);
 
   return (
     <div>

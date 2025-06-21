@@ -1,8 +1,8 @@
 import { Admin, Resource, ShowGuesser } from "react-admin";
-import jsonServerProvider from "ra-data-json-server";
-import CategoryIcon from '@mui/icons-material/Category';
+import GroupWorkIcon from '@mui/icons-material/GroupWork';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
+import PeopleIcon from '@mui/icons-material/People';
 import CreateProduct from "./products/CreateProduct";
 import EditProduct from "./products/EditProduct";
 import CreateCategory from "./categories/CreateCategory";
@@ -10,14 +10,16 @@ import EditCategory from "./categories/EditCategory";
 import ProductList from "./products/ProductList";
 import CategoryList from "./categories/CategoryList";
 import OrderList from "./orders/OrderList";
-import { authProvider } from "./auth";
-
-const dataProvider = jsonServerProvider(import.meta.env.VITE_BACKEND_URL);
+import { authProvider } from "./authProvider";
+import { dataProvider } from "./dataProvider";
+import UserList from "./users/UserList";
+import CreateUser from "./users/CreateUser";
+import EditUser from "./users/EditUser";
 
 const MyAdmin = () => (
   <Admin basename="/admin" dataProvider={dataProvider} authProvider={authProvider}>
     <Resource
-      icon={CategoryIcon}
+      icon={GroupWorkIcon}
       name="categories"
       list={CategoryList}
       create={CreateCategory}
@@ -35,6 +37,13 @@ const MyAdmin = () => (
       name="orders"
       list={OrderList}
       show={ShowGuesser}
+    />
+    <Resource
+      icon={PeopleIcon}
+      name="users"
+      list={UserList}
+      create={CreateUser}
+      edit={EditUser}
     />
   </Admin>
 );

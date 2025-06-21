@@ -8,17 +8,17 @@ const orderRouter = Router();
 // Define routes
 orderRouter.post("/orders", isAuthenticated, addOrder);
 
-orderRouter.get("/orders", getOrders);
+orderRouter.get("/orders", isAuthenticated, getOrders);
 
-orderRouter.get("/orders/count", countOrders);
+orderRouter.get("/orders/count", isAuthenticated, countOrders);
 
-orderRouter.get("/orders/:id", getOrder);
+orderRouter.get("/orders/:id", isAuthenticated, getOrder);
 
 // orderRouter.put("/orders/:id", updateOrder);
 
 // orderRouter.delete("/orders/:id", deleteOrder);
 
-orderRouter.post("/orders/:id/refresh-payment-status", refreshOrderPaymentStatus);
+orderRouter.post("/orders/:id/refresh-payment-status", isAuthenticated, refreshOrderPaymentStatus);
 
 orderRouter.post("/orders/confirm", confirmOrder);
 
