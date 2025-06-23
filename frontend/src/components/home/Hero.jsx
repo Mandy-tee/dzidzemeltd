@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import logoImage from '../../images/logo.png';
@@ -8,14 +8,12 @@ import coconutoilImage from '../../images/coconutoil.png';
 import garimixImage from '../../images/garimix.png';
 import jasminericeImage from '../../images/jasminerice.png';
 import palmoil2Image from '../../images/palmoil2.png';
-import soboloImage from '../../images/sobolo.png';
 import winesImage from '../../images/wines.png';
 import plainriceImage from '../../images/plainrice.png';
-import kokonteImage from '../../images/kokonte.png';
 import gariImage from '../../images/gari.png';
 
 
-const images = [gariImage, juiceImage, cereamixImage, coconutoilImage, garimixImage, jasminericeImage, palmoil2Image, winesImage, plainriceImage, kokonteImage];
+const images = [gariImage, juiceImage, cereamixImage, coconutoilImage, garimixImage, jasminericeImage, palmoil2Image, winesImage, plainriceImage];
 
 const Hero = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
