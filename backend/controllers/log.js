@@ -19,3 +19,18 @@ export const getHubtelLogs = async (req, res, next) => {
         next(error);
     }
 }
+
+export const getHubtelLog = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        // Get hubtelLog by id from database
+        const hubtelLog = await HubtelLogModel.findById(id);
+        if (!hubtelLog) {
+            return res.status(404).json('HubtelLog not found!');
+        }
+        // Respond to request
+        res.json(hubtelLog);
+    } catch (error) {
+        next(error);
+    }
+}

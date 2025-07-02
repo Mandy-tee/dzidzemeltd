@@ -17,6 +17,7 @@ import UserList from "./users/UserList";
 import CreateUser from "./users/CreateUser";
 import EditUser from "./users/EditUser";
 import HubtelLogList from "./hubtel-logs/HubtelLogList";
+import ShowHubtelLog from "./hubtel-logs/ShowHubtelLog";
 
 const MyAdmin = () => (
   <Admin basename="/admin" dataProvider={dataProvider} authProvider={authProvider}>
@@ -52,6 +53,7 @@ const MyAdmin = () => (
       name="hubtel-logs"
       options={{ label: 'HubtelLogs' }}
       list={HubtelLogList}
+      show={ShowHubtelLog}
     />
   </Admin>
 );
