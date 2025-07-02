@@ -16,7 +16,7 @@ import { dataProvider } from "./dataProvider";
 import UserList from "./users/UserList";
 import CreateUser from "./users/CreateUser";
 import EditUser from "./users/EditUser";
-import HubtelCheckoutLogList from "./logs/HubtelCheckoutLogList";
+import HubtelLogList from "./hubtel-logs/HubtelLogList";
 
 const MyAdmin = () => (
   <Admin basename="/admin" dataProvider={dataProvider} authProvider={authProvider}>
@@ -51,7 +51,7 @@ const MyAdmin = () => (
       icon={PrintIcon}
       name="hubtel-logs"
       options={{ label: 'HubtelLogs' }}
-      list={HubtelCheckoutLogList}
+      list={HubtelLogList}
     />
   </Admin>
 );
