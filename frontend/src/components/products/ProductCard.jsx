@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useCart } from '../../contexts/CartContext';
 import { ShoppingBagIcon } from '@heroicons/react/24/outline';
+import { imageBaseURL } from '../../api/client';
 
 const ProductCard = ({ product }) => {
   const { addToCart } = useCart();
@@ -20,7 +21,7 @@ const ProductCard = ({ product }) => {
       <Link to={`/products/${product.id}`} className="block relative overflow-hidden">
         <div className="aspect-square overflow-hidden bg-slate-100 dark:bg-slate-800">
           <img
-            src={`https://lh3.googleusercontent.com/d/${product.image}`}
+            src={`${imageBaseURL}${product.image}`}
             alt={product.name}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
           />

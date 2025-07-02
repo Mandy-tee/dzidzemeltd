@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { XMarkIcon, ShoppingBagIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { useCart } from '../../contexts/CartContext';
+import { imageBaseURL } from '../../api/client';
 
 const MiniCart = () => {
   const { cart, toggleCart, removeFromCart, updateQuantity, getCartTotal } = useCart();
@@ -53,7 +54,7 @@ const MiniCart = () => {
                   <div className="flex gap-4">
                     <div className="w-20 h-20 rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-800 flex-shrink-0">
                       <img
-                        src={`https://lh3.googleusercontent.com/d/${item.image}`}
+                        src={`${imageBaseURL}${item.image}`}
                         alt={item.name}
                         className="w-full h-full object-cover"
                       />

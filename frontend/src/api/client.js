@@ -8,3 +8,5 @@ export const apiFetcher = async (url) => {
     const response = await apiClient.get(url);
     return response.data;
 }
+
+export const imageBaseURL = 'https://lh3.googleusercontent.com/d/';

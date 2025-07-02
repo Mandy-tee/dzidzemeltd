@@ -1,5 +1,6 @@
 import axios from "axios";
 import { OrderModel } from "../models/order.js";
+import { HubtelLogModel } from "../models/log.js";
 import { addOrderValidator, updateOrderValidator } from "../validators/order.js";
 
 export const addOrder = async (req, res, next) => {
@@ -155,6 +156,9 @@ export const refreshOrderPaymentStatus = async (req, res, next) => {
 
 export const confirmOrder = async (req, res, next) => {
     try {
+        // Log callback payload to database
+        await HubtelLogModel.create(req.body);
+        // Destructure needed properties from payload
         const { Data: { ClientReference, Status } } = req.body;
         console.log('Hubtel Payment Callback >>>', ClientReference, Status);
         // Update order by id from database

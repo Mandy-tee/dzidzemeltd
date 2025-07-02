@@ -3,6 +3,7 @@ import GroupWorkIcon from '@mui/icons-material/GroupWork';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
 import PeopleIcon from '@mui/icons-material/People';
+import PrintIcon from '@mui/icons-material/Print';
 import CreateProduct from "./products/CreateProduct";
 import EditProduct from "./products/EditProduct";
 import CreateCategory from "./categories/CreateCategory";
@@ -15,6 +16,7 @@ import { dataProvider } from "./dataProvider";
 import UserList from "./users/UserList";
 import CreateUser from "./users/CreateUser";
 import EditUser from "./users/EditUser";
+import HubtelCheckoutLogList from "./logs/HubtelCheckoutLogList";
 
 const MyAdmin = () => (
   <Admin basename="/admin" dataProvider={dataProvider} authProvider={authProvider}>
@@ -44,6 +46,12 @@ const MyAdmin = () => (
       list={UserList}
       create={CreateUser}
       edit={EditUser}
+    />
+    <Resource
+      icon={PrintIcon}
+      name="hubtel-logs"
+      options={{ label: 'HubtelLogs' }}
+      list={HubtelCheckoutLogList}
     />
   </Admin>
 );

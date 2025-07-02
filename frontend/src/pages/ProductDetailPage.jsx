@@ -15,7 +15,7 @@ import { useCart } from '../contexts/CartContext';
 import ProductCard from '../components/products/ProductCard';
 import toast from 'react-hot-toast';
 import useSWR from 'swr';
-import { apiFetcher } from '../api/client';
+import { apiFetcher, imageBaseURL } from '../api/client';
 
 const ProductDetailPage = () => {
   const { id } = useParams();
@@ -117,7 +117,7 @@ const ProductDetailPage = () => {
             <div>
               <div className="relative bg-slate-100 dark:bg-slate-700 rounded-lg overflow-hidden">
                 <img
-                  src={`https://lh3.googleusercontent.com/d/${product.image}`}
+                  src={`${imageBaseURL}${product.image}`}
                   alt={product.name}
                   className="w-full h-auto aspect-square object-cover"
                 />

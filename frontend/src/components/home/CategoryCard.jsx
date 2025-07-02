@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { imageBaseURL } from '../../api/client';
 
 const CategoryCard = ({ category }) => {
   return (
@@ -10,7 +11,7 @@ const CategoryCard = ({ category }) => {
       <Link to={`/products?category=${category.id}`}>
         <div className="aspect-square">
           <img
-            src={`https://lh3.googleusercontent.com/d/${category.image}`}
+            src={`${imageBaseURL}${category.image}`}
             alt={category.name}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
           />
