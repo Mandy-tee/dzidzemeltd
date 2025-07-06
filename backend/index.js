@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
+import errorHandler from 'errorhandler';
 import productRouter from './routes/product.js';
 import userRouter from './routes/user.js';
 import categoryRouter from './routes/category.js';
@@ -25,6 +26,9 @@ app.use(userRouter);
 app.use(categoryRouter);
 app.use(orderRouter);
 app.use(logRouter);
+
+// Use error handler
+app.use(errorHandler({ log: false }));
 
 // Listen for incoming request on specified port
 const port = process.env.PORT || 5000;
