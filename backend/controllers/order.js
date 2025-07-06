@@ -20,10 +20,10 @@ export const addOrder = async (req, res, next) => {
         const hubtelResponse = await axios.post('https://payproxyapi.hubtel.com/items/initiate', {
             totalAmount: total,
             description: `Payment for GHC ${total} from ${firstName} ${lastName} to Dzidzeme Home Group`,
-            callbackUrl: 'https://dzidzemeltd.onrender.com/orders/confirm',
-            returnUrl: 'https://dzidzemeltd.vercel.app/hubtel-confirmation',
+            callbackUrl: 'https://dzidzemeltd.mickeymond.site/orders/confirm',
+            returnUrl: `${req.get('Origin')}/hubtel-confirmation`,
             merchantAccountNumber: process.env.HUBTEL_PAYMENT_MERCHANT_ACCOUNT_NUMBER,
-            cancellationUrl: 'https://dzidzemeltd.vercel.app/hubtel-cancellation',
+            cancellationUrl: `${req.get('Origin')}/hubtel-cancellation`,
             clientReference: id,
             payeeName: `${firstName} ${lastName}`,
             payeeMobileNumber: phone,
