@@ -1,4 +1,5 @@
-import { Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 
 // Layouts
@@ -21,12 +22,20 @@ import NotFoundPage from './pages/NotFoundPage';
 
 // Admin
 import MyAdmin from './admin';
+import SuccessPage from './pages/payment/SuccessPage';
+import FailurePage from './pages/payment/FailurePage';
 
 function App() {
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
   return (
     <AnimatePresence mode="wait">
-      <Routes>
-        <Route path="/" element={<MainLayout />}>
+      <Routes location={location} key={location.pathname}>
+        <Route path='/' element={<MainLayout />}>
           <Route index element={<HomePage />} />
           <Route path="products" element={<ProductsPage />} />
           <Route path="products/:id" element={<ProductDetailPage />} />
@@ -39,6 +48,8 @@ function App() {
           <Route path="blog/:id" element={<BlogPostPage />} />
           <Route path="contact" element={<ContactPage />} />
           <Route path="about" element={<AboutPage />} />
+          <Route path="hubtel-confirmation" element={<SuccessPage />} />
+          <Route path="hubtel-cancellation" element={<FailurePage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
         <Route path='/admin/*' element={<MyAdmin />} />
